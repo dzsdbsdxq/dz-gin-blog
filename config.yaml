@@ -1,0 +1,70 @@
+system:
+  # 设定模式(debug/release/test,正式版改为release)
+  mode: debug
+  host: 0.0.0.0
+  # 程序监听端口
+  port: 10000
+  # rsa公钥文件路径(config.yml相对路径, 也可以填绝对路径)
+  rsa-public-key: rsa-pub.pem
+  # rsa私钥文件路径(config.yml相对路径, 也可以填绝对路径)
+  rsa-private-key: rsa-priv.pem
+captcha:
+  key-long: 6
+  img-width: 240
+  img-height: 80
+  open-captcha: 0
+  open-captcha-timeout: 3600
+cors:
+  mode: strict-whitelist
+  whitelist:
+    - allow-origin: example1.com
+      allow-methods: POST, GET
+      allow-headers: Content-Type,AccessToken,X-CSRF-Token, Authorization, Token,X-Token,X-User-Id
+      expose-headers: Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers, Content-Type
+      allow-credentials: true
+    - allow-origin: example2.com
+      allow-methods: GET, POST
+      allow-headers: content-type
+      expose-headers: Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers, Content-Type
+      allow-credentials: true
+jwt:
+  signing-key: 907462a2-2483-434c-9796-455b5a98ce3b
+  expires-time: 7d
+  buffer-time: 1d
+  issuer: dz-gin-blog
+mysql:
+  prefix: ""
+  port: "3306"
+  config: charset=utf8mb4&parseTime=True&loc=Local
+  db-name: gva
+  username: root
+  password: root
+  path: 127.0.0.1
+  engine: ""
+  log-mode: error
+  max-idle-conns: 10
+  max-open-conns: 100
+  singular: false
+  log-zap: false
+logs:
+  # 日志等级(-1:Debug, 0:Info, 1:Warn, 2:Error, 3:DPanic, 4:Panic, 5:Fatal, -1<=level<=5, 参照zap.level源码)
+  level: -1
+  # 日志路径
+  path: logs
+  # 文件最大大小, M
+  max-size: 50
+  # 备份数
+  max-backups: 100
+  # 存放时间, 天
+  max-age: 30
+  # 是否压缩
+  compress: false
+zap:
+  level: info
+  prefix: '[github.com/flipped-aurora/gin-vue-admin/server]'
+  format: console
+  director: log
+  encode-level: LowercaseColorLevelEncoder
+  stacktrace-key: stacktrace
+  show-line: true
+  log-in-console: true
