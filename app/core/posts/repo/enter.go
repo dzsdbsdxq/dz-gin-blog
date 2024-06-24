@@ -23,7 +23,6 @@ type PostRepository struct {
 }
 
 func (pr *PostRepository) AdminCreatePost(post *vo.PostReq) error {
-
 	return pr.dao.Create(&model.SysPosts{
 		Title:           post.Title,
 		Body:            post.Body,

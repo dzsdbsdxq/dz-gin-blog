@@ -4,10 +4,6 @@ system:
   host: 0.0.0.0
   # 程序监听端口
   port: 10000
-  # rsa公钥文件路径(config.yml相对路径, 也可以填绝对路径)
-  rsa-public-key: rsa-pub.pem
-  # rsa私钥文件路径(config.yml相对路径, 也可以填绝对路径)
-  rsa-private-key: rsa-priv.pem
 captcha:
   key-long: 6
   img-width: 240
@@ -36,12 +32,12 @@ mysql:
   prefix: ""
   port: "3306"
   config: charset=utf8mb4&parseTime=True&loc=Local
-  db-name: gva
+  db-name: db_blog
   username: root
   password: root
   path: 127.0.0.1
   engine: ""
-  log-mode: error
+  log-mode: info
   max-idle-conns: 10
   max-open-conns: 100
   singular: false

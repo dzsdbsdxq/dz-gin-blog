@@ -12,7 +12,7 @@ type SysPosts struct {
 	Recommend       int    `json:"recommend" gorm:"comment:是否推荐（1=否，2=推荐）"`
 	Status          uint   `json:"status" gorm:"comment:状态（1=已发布，2=草稿，3=回收站）"`
 	Top             uint   `json:"top" gorm:"comment:置顶"`
-	SortBy          uint   `json:"sortby" gorm:"comment:排序"`
+	SortBy          uint   `json:"sort_by" gorm:"comment:排序"`
 	Flag            uint   `json:"flag" gorm:"comment:文章类型(1=图文，2=视频)"`
 	Views           uint   `json:"views" gorm:"comment:查看数"`
 	Likes           uint   `json:"likes" gorm:"comment:点赞数"`

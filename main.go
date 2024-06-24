@@ -1,7 +1,6 @@
 package main
 
 import (
-	"github.com/dzsdbsdxq/dz-gin-blog/app/global"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/initialize"
 )
 
@@ -10,5 +9,11 @@ func main() {
 	initialize.InitZapLogger()
 	initialize.InitMysql()
 	initialize.InitCache()
-	global.G_DZ_LOG.Info("系统完成!")
+	app, err := initializeApp()
+	if err != nil {
+		panic(err)
+	}
+
+	initialize.Run(app)
+
 }

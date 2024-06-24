@@ -1,10 +1,11 @@
 package initialize
 
 import (
+	"github.com/dzsdbsdxq/dz-gin-blog/app/core/posts"
 	"github.com/gin-gonic/gin"
 )
 
-func NewGinEngine() (*gin.Engine, error) {
+func NewGinEngine(postHdl *posts.Handler) (*gin.Engine, error) {
 	engine := gin.Default()
 	engine.Use(gin.Recovery())
 
@@ -18,7 +19,9 @@ func NewGinEngine() (*gin.Engine, error) {
 	//	}
 	//}
 	// 中间件注册
-	engine.Use(middleware...)
+	//engine.Use(middleware...)
+	postHdl.RegisterRoutes(engine)
+	return engine, nil
 
 }
 
