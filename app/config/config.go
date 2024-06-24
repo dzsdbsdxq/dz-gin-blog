@@ -5,6 +5,7 @@ type Config struct {
 	Mysql   Mysql   `mapstructure:"mysql" json:"mysql" yaml:"mysql"`
 	JWT     JWT     `mapstructure:"jwt" json:"jwt" yaml:"jwt"`
 	Zap     Zap     `mapstructure:"zap" json:"zap" yaml:"zap"`
+	Logs    Logs    `mapstructure:"logs" json:"logs" yaml:"logs"`
 	Captcha Captcha `mapstructure:"captcha" json:"captcha" yaml:"captcha"`
 	Cors    CORS    `mapstructure:"cors" json:"cors" yaml:"cors"`
 }

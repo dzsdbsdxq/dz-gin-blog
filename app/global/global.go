@@ -1,6 +1,8 @@
 package global
 
 import (
+	cache "github.com/chenmingyong0423/go-generics-cache"
+	"github.com/dzsdbsdxq/dz-gin-blog/app/config"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
 	"gorm.io/gorm"
@@ -8,9 +10,11 @@ import (
 )
 
 var (
-	G_DZ_DB  *gorm.DB
-	G_DZ_VP  *viper.Viper
-	G_DZ_LOG *zap.Logger
+	G_DZ_DB     *gorm.DB
+	G_DZ_VP     *viper.Viper
+	G_DZ_LOG    *zap.SugaredLogger
+	G_DZ_CONFIG = new(config.Config)
+	G_DZ_CACHE  *cache.Cache[string, any]
 )
 
 type G_DZ_MODEL struct {

@@ -1,7 +1,14 @@
 package main
 
-import "fmt"
+import (
+	"github.com/dzsdbsdxq/dz-gin-blog/app/global"
+	"github.com/dzsdbsdxq/dz-gin-blog/app/initialize"
+)
 
 func main() {
-	fmt.Println("hello world")
+	initialize.InitViper()
+	initialize.InitZapLogger()
+	initialize.InitMysql()
+	initialize.InitCache()
+	global.G_DZ_LOG.Info("系统完成!")
 }
