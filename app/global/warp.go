@@ -1,7 +1,6 @@
 package global
 
 import (
-	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"log/slog"
@@ -17,7 +16,12 @@ type ResponseBody[T any] struct {
 func (er ResponseBody[T]) Error() string {
 	return fmt.Sprintf("%d:%s", er.Code, er.Message)
 }
-
+func ErrorResponse(message string) *ResponseBody[any] {
+	return &ResponseBody[any]{
+		Code:    -1,
+		Message: message,
+	}
+}
 func SuccessResponse() *ResponseBody[any] {
 	return &ResponseBody[any]{
 		Code:    0,
@@ -59,19 +63,9 @@ func (er ErrorResponseBody) Error() string {
 
 func ErrorHandler(ctx *gin.Context, err error) {
 	l := slog.Default().With("X-Request-ID", ctx.GetString("X-Request-ID"))
-	var e ErrorResponseBody
-	var r ResponseBody[any]
-	switch {
-	case errors.As(err, &e):
-		l.ErrorContext(ctx, e.Error())
-		ctx.JSON(e.HttpCode, nil)
-	case errors.As(err, &r):
-		ctx.JSON(http.StatusOK, r)
-	default:
-		l.ErrorContext(ctx, err.Error())
-		fmt.Printf("stack trace: \n%+v\n", err)
-		ctx.JSON(http.StatusInternalServerError, nil)
-	}
+	l.ErrorContext(ctx, err.Error())
+	G_DZ_LOG.Errorf("stack trace: \n%+v\n", err)
+	ctx.JSON(http.StatusOK, ErrorResponse(err.Error()))
 }
 func WrapWithBody[T any, R any](fn func(ctx *gin.Context, req R) (T, error)) gin.HandlerFunc {
 	return func(ctx *gin.Context) {

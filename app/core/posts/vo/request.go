@@ -19,9 +19,13 @@ type PostReq struct {
 	SeoKey          string `json:"seo_key"`  //seo关键词
 	SeoDesc         string `json:"seo_desc"` //seo描述
 }
-type Page struct {
-	// 当前页
-	PageNo int64 `form:"pageNo" binding:"required"`
-	// 每页数量
-	PageSize int64 `form:"pageSize" binding:"required"`
+type PageInfo struct {
+	PageNo   int64  `json:"pageNo" form:"pageNo"`     // 当前页
+	PageSize int64  `json:"pageSize" form:"pageSize"` // 每页数量
+	Category int64  `json:"category" form:"category"` //栏目ID
+	Keyword  string `json:"keyword" form:"keyword"`   //关键字
+}
+
+type IdsReq struct {
+	Ids []int `json:"ids" form:"ids"`
 }
