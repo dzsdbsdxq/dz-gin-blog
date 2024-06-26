@@ -67,6 +67,16 @@ func ErrorHandler(ctx *gin.Context, err error) {
 	G_DZ_LOG.Errorf("stack trace: \n%+v\n", err)
 	ctx.JSON(http.StatusOK, ErrorResponse(err.Error()))
 }
+func Wrap[T any](fn func(ctx *gin.Context) (T, error)) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		result, err := fn(ctx)
+		if err != nil {
+			ErrorHandler(ctx, err)
+			return
+		}
+		ctx.JSON(http.StatusOK, result)
+	}
+}
 func WrapWithBody[T any, R any](fn func(ctx *gin.Context, req R) (T, error)) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var req R

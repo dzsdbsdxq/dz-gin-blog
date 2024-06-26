@@ -1,9 +1,11 @@
 package model
 
-import "github.com/dzsdbsdxq/dz-gin-blog/app/global"
+import (
+	"github.com/dzsdbsdxq/dz-gin-blog/app/global"
+)
 
 type SysPosts struct {
-	global.G_DZ_MODEL
+	global.Model
 	Title           string `json:"title" gorm:"comment:标题"`
 	Body            string `json:"body" gorm:"comment:内容"`
 	Extend          string `json:"extend" gorm:"comment:自定义扩展信息"`

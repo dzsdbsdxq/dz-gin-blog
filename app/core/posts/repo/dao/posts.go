@@ -14,7 +14,7 @@ type IPostDao interface {
 	GetPostDetailBySlug(slug string) (sysPost *model.SysPosts, err error)
 	GetPostDetailById(id uint) (sysPost *model.SysPosts, err error)
 	Update(post *model.SysPosts) error
-	DeletePostByIds(ids vo.IdsReq) error
+	DeletePostByIds(ids global.IdsReq) error
 }
 
 var _ IPostDao = (*PostDao)(nil)
@@ -85,23 +85,24 @@ func (p *PostDao) Update(post *model.SysPosts) error {
 //@param: ids vo.IdsReq
 //@return: error
 
-func (p *PostDao) DeletePostByIds(ids vo.IdsReq) error {
+func (p *PostDao) DeletePostByIds(ids global.IdsReq) error {
 	var posts []model.SysPosts
 	return p.coll.Find(&posts, "id in ?", ids.Ids).Delete(&posts).Error
 }
 
-func (p *PostDao) GetPostsList(postReq vo.PostReq, info vo.PageInfo, order string, desc bool) (list interface{}, total int64, err error) {
-	limit := info.PageSize
-	offset := info.PageSize * (info.PageNo - 1)
-	db := p.coll.Model(&model.SysPosts{})
-	var postList []model.SysPosts
-	if info.Keyword != "" {
-		db = db.Where("title LIKE ?", "%"+info.Keyword+"%")
-	}
-	if info.Category != 0 {
-
-	}
-
-	err = db.Count(&total).Error
+func (p *PostDao) GetPostsList(postReq vo.PostReq, info global.PageInfo, order string, desc bool) (list interface{}, total int64, err error) {
+	//limit := info.PageSize
+	//offset := info.PageSize * (info.PageNo - 1)
+	//db := p.coll.Model(&model.SysPosts{})
+	//var postList []model.SysPosts
+	//if info.Keyword != "" {
+	//	db = db.Where("title LIKE ?", "%"+info.Keyword+"%")
+	//}
+	//if info.Category != 0 {
+	//
+	//}
+	//
+	//err = db.Count(&total).Error
+	return nil, 0, nil
 
 }

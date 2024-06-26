@@ -8,6 +8,7 @@ package main
 
 import (
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/posts"
+	"github.com/dzsdbsdxq/dz-gin-blog/app/core/users"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/initialize"
 	"github.com/gin-gonic/gin"
 )
@@ -17,7 +18,9 @@ import (
 func initializeApp() (*gin.Engine, error) {
 	module := posts.InitPostModule()
 	postHandler := module.Hdl
-	engine, err := initialize.NewGinEngine(postHandler)
+	usersModule := users.InitUsersModule()
+	userHandler := usersModule.Hdl
+	engine, err := initialize.NewGinEngine(postHandler, userHandler)
 	if err != nil {
 		return nil, err
 	}
