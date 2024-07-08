@@ -7,6 +7,8 @@
 package main
 
 import (
+	"github.com/dzsdbsdxq/dz-gin-blog/app/core/attachments"
+	"github.com/dzsdbsdxq/dz-gin-blog/app/core/oss"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/posts"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/users"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/initialize"
@@ -20,7 +22,10 @@ func initializeApp() (*gin.Engine, error) {
 	postHandler := module.Hdl
 	usersModule := users.InitUsersModule()
 	userHandler := usersModule.Hdl
-	engine, err := initialize.NewGinEngine(postHandler, userHandler)
+	ossModule := oss.InitOssModule()
+	attachmentsModule := attachments.InitAttachmentsModule(ossModule)
+	attachmentsHandle := attachmentsModule.Hdl
+	engine, err := initialize.NewGinEngine(postHandler, userHandler, attachmentsHandle)
 	if err != nil {
 		return nil, err
 	}

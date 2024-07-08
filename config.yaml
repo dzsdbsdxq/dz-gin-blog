@@ -4,6 +4,11 @@ system:
   host: 0.0.0.0
   # 程序监听端口
   port: 10000
+  oss-type: local
+  domain: http://127.0.0.1:10000
+# 本地存的地址
+local:
+  store-path: uploads/file
 captcha:
   key-long: 6
   img-width: 240

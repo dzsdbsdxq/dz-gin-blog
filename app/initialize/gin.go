@@ -1,14 +1,19 @@
 package initialize
 
 import (
+	"github.com/dzsdbsdxq/dz-gin-blog/app/core/attachments"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/posts"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/users"
+	"github.com/dzsdbsdxq/dz-gin-blog/app/global"
 	"github.com/gin-gonic/gin"
 )
 
-func NewGinEngine(postHdl *posts.Handler, usersHdl *users.Handler) (*gin.Engine, error) {
+func NewGinEngine(postHdl *posts.Handler, usersHdl *users.Handler, attachmentHdl *attachments.Handle) (*gin.Engine, error) {
 	engine := gin.Default()
 	engine.Use(gin.Recovery())
+
+	//ginS.Static()
+	engine.Static(global.G_DZ_CONFIG.Local.StorePath, global.G_DZ_CONFIG.Local.StorePath)
 
 	//// 参数校验器注册
 	//if validate, ok := binding.Validator.Engine().(*validator.Validate); ok {
@@ -23,6 +28,7 @@ func NewGinEngine(postHdl *posts.Handler, usersHdl *users.Handler) (*gin.Engine,
 	//engine.Use(middleware...)
 	postHdl.RegisterRoutes(engine)
 	usersHdl.RegisterRoutes(engine)
+	attachmentHdl.RegisterRoutes(engine)
 	return engine, nil
 
 }

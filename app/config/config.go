@@ -8,4 +8,5 @@ type Config struct {
 	Logs    Logs    `mapstructure:"logs" json:"logs" yaml:"logs"`
 	Captcha Captcha `mapstructure:"captcha" json:"captcha" yaml:"captcha"`
 	Cors    CORS    `mapstructure:"cors" json:"cors" yaml:"cors"`
+	Local   Local   `mapstructure:"local" json:"local" yaml:"local"`
 }
