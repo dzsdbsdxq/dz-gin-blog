@@ -2,13 +2,14 @@ package initialize
 
 import (
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/attachments"
+	"github.com/dzsdbsdxq/dz-gin-blog/app/core/categories"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/posts"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/users"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/global"
 	"github.com/gin-gonic/gin"
 )
 
-func NewGinEngine(postHdl *posts.Handler, usersHdl *users.Handler, attachmentHdl *attachments.Handle) (*gin.Engine, error) {
+func NewGinEngine(postHdl *posts.Handler, usersHdl *users.Handler, attachmentHdl *attachments.Handler, categoriesHdl *categories.Handler) (*gin.Engine, error) {
 	engine := gin.Default()
 	engine.Use(gin.Recovery())
 
@@ -29,6 +30,7 @@ func NewGinEngine(postHdl *posts.Handler, usersHdl *users.Handler, attachmentHdl
 	postHdl.RegisterRoutes(engine)
 	usersHdl.RegisterRoutes(engine)
 	attachmentHdl.RegisterRoutes(engine)
+	categoriesHdl.RegisterRoutes(engine)
 	return engine, nil
 
 }

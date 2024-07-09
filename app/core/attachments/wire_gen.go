@@ -22,10 +22,10 @@ func InitAttachmentsModule(ossMdl *oss.Module) *Module {
 	attachmentsRepository := repo.NewAttachmentsRepository(attachmentsDao)
 	attachmentsService := service.NewAttachmentsService(attachmentsRepository)
 	iOssService := ossMdl.Svc
-	attachmentsHandle := controller.NewAttachmentsHandler(attachmentsService, iOssService)
+	attachmentsHandler := controller.NewAttachmentsHandler(attachmentsService, iOssService)
 	module := &Module{
 		Svc: attachmentsService,
-		Hdl: attachmentsHandle,
+		Hdl: attachmentsHandler,
 	}
 	return module
 }

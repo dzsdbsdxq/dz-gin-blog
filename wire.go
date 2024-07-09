@@ -4,6 +4,7 @@ package main
 
 import (
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/attachments"
+	"github.com/dzsdbsdxq/dz-gin-blog/app/core/categories"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/oss"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/posts"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/users"
@@ -22,5 +23,7 @@ func initializeApp() (*gin.Engine, error) {
 		wire.FieldsOf(new(*users.Module), "Hdl"),
 		attachments.InitAttachmentsModule,
 		wire.FieldsOf(new(*attachments.Module), "Hdl"),
+		categories.InitCategoriesModule,
+		wire.FieldsOf(new(*categories.Module), "Hdl"),
 	))
 }

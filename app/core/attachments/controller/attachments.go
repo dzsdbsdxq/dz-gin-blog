@@ -13,13 +13,13 @@ import (
 	"time"
 )
 
-type AttachmentsHandle struct {
+type AttachmentsHandler struct {
 	serv service.IAttachmentsService
 	oss  oss.Service
 }
 
-func NewAttachmentsHandler(serv service.IAttachmentsService, oss oss.Service) *AttachmentsHandle {
-	return &AttachmentsHandle{
+func NewAttachmentsHandler(serv service.IAttachmentsService, oss oss.Service) *AttachmentsHandler {
+	return &AttachmentsHandler{
 		serv: serv,
 		oss:  oss,
 		//cfgService:   cfgService,
@@ -27,13 +27,13 @@ func NewAttachmentsHandler(serv service.IAttachmentsService, oss oss.Service) *A
 		//eventBus:     eventBus,
 	}
 }
-func (a *AttachmentsHandle) RegisterRoutes(engine *gin.Engine) {
+func (a *AttachmentsHandler) RegisterRoutes(engine *gin.Engine) {
 	adminGroup := engine.Group("/admin-api/attachment")
 	adminGroup.POST("/upload", global.Wrap(a.AdminUploadFile))
 	adminGroup.GET("/lists", global.WrapWithBody(a.AdminGetFile))
 }
 
-func (a *AttachmentsHandle) AdminUploadFile(ctx *gin.Context) (*global.ResponseBody[*vo.AttachmentsRes], error) {
+func (a *AttachmentsHandler) AdminUploadFile(ctx *gin.Context) (*global.ResponseBody[*vo.AttachmentsRes], error) {
 	_, header, err := ctx.Request.FormFile("file")
 	if err != nil {
 		global.G_DZ_LOG.Error("接收文件失败!", zap.Error(err))
@@ -68,7 +68,7 @@ func (a *AttachmentsHandle) AdminUploadFile(ctx *gin.Context) (*global.ResponseB
 	}), nil
 }
 
-func (a *AttachmentsHandle) AdminGetFile(ctx *gin.Context, req *vo.AttachmentsGetReq) (*global.ResponseBody[global.PageRes[[]*vo.AttachmentsRes]], error) {
+func (a *AttachmentsHandler) AdminGetFile(ctx *gin.Context, req *vo.AttachmentsGetReq) (*global.ResponseBody[global.PageRes[[]*vo.AttachmentsRes]], error) {
 	req.ValidateAndSetDefault()
 	attachments, total, err := a.serv.AdminGetAttachments(req)
 	if err != nil {

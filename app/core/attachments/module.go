@@ -7,11 +7,11 @@ import (
 )
 
 type (
-	Handle   = controller.AttachmentsHandle
+	Handler  = controller.AttachmentsHandler
 	Service  = service.IAttachmentsService
 	AttachVO = vo.AttachmentsReq
 	Module   struct {
 		Svc Service
-		Hdl *Handle
+		Hdl *Handler
 	}
 )
