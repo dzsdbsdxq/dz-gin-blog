@@ -6,6 +6,7 @@ import (
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/attachments/vo"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/oss"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/global"
+	"github.com/dzsdbsdxq/dz-gin-blog/app/utils"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 	"path/filepath"
@@ -29,10 +30,10 @@ func NewAttachmentsHandler(serv service.IAttachmentsService, oss oss.Service) *A
 func (a *AttachmentsHandle) RegisterRoutes(engine *gin.Engine) {
 	adminGroup := engine.Group("/admin-api/attachment")
 	adminGroup.POST("/upload", global.Wrap(a.AdminUploadFile))
-	adminGroup.GET("/lists", global.Wrap(a.AdminGetFile))
+	adminGroup.GET("/lists", global.WrapWithBody(a.AdminGetFile))
 }
 
-func (a *AttachmentsHandle) AdminUploadFile(ctx *gin.Context) (*global.ResponseBody[*vo.AttachmentsUploadSuccessResponse], error) {
+func (a *AttachmentsHandle) AdminUploadFile(ctx *gin.Context) (*global.ResponseBody[*vo.AttachmentsRes], error) {
 	_, header, err := ctx.Request.FormFile("file")
 	if err != nil {
 		global.G_DZ_LOG.Error("接收文件失败!", zap.Error(err))
@@ -57,16 +58,31 @@ func (a *AttachmentsHandle) AdminUploadFile(ctx *gin.Context) (*global.ResponseB
 		return nil, saveErr
 	}
 
-	return global.SuccessResponseWithData(&vo.AttachmentsUploadSuccessResponse{
+	return global.SuccessResponseWithData(&vo.AttachmentsRes{
 		Url:       filepath.Join(global.G_DZ_CONFIG.System.Domain, at.FilePath),
 		Path:      at.FilePath,
 		Driver:    "local",
-		CreatedAt: time.Now(),
+		CreatedAt: time.Now().Format(time.DateTime),
 		Name:      at.FileName,
 		Key:       at.FileMd5,
 	}), nil
 }
 
-func (a *AttachmentsHandle) AdminGetFile(ctx *gin.Context) {
-
+func (a *AttachmentsHandle) AdminGetFile(ctx *gin.Context, req *vo.AttachmentsGetReq) (*global.ResponseBody[global.PageRes[[]*vo.AttachmentsRes]], error) {
+	req.ValidateAndSetDefault()
+	attachments, total, err := a.serv.AdminGetAttachments(req)
+	if err != nil {
+		return nil, err
+	}
+	return global.SuccessResponseWithData(global.PageRes[[]*vo.AttachmentsRes]{
+		PageInfo: global.PageInfo{
+			PageNo:   req.PageNo,
+			PageSize: req.PageSize,
+			Category: req.Category,
+			Keyword:  req.Keyword,
+		},
+		TotalCount: total,
+		TotalPages: utils.CalcPages(total, req.PageSize),
+		List:       attachments,
+	}), nil
 }

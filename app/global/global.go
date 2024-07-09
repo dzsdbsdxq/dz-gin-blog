@@ -40,5 +40,5 @@ type PageRes[T any] struct {
 	TotalPages int64 `json:"total"`
 	// 总数量
 	TotalCount int64 `json:"count"`
-	List       []T   `json:"list"`
+	List       T     `json:"list"`
 }

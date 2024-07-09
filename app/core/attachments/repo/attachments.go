@@ -8,6 +8,7 @@ import (
 
 type IAttachmentsRepository interface {
 	AdminCreateAttachments(attachments *vo.AttachmentsReq) error
+	QueryAdminPostsPage(req *vo.AttachmentsGetReq) (attachments []*model.SysAttachMents, total int64, err error)
 }
 
 var _ IAttachmentsRepository = (*AttachmentsRepository)(nil)
@@ -28,6 +29,9 @@ func (a *AttachmentsRepository) AdminCreateAttachments(attachments *vo.Attachmen
 		FileType:   attachments.FileType,
 		Position:   "local",
 	})
+}
+func (a *AttachmentsRepository) QueryAdminPostsPage(req *vo.AttachmentsGetReq) (attachments []*model.SysAttachMents, total int64, err error) {
+	return a.dao.Get(req)
 }
 
 func NewAttachmentsRepository(dao dao.IAttachmentsDao) *AttachmentsRepository {

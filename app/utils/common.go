@@ -16,3 +16,17 @@ func MD5V(str []byte, b ...byte) string {
 	h.Write(str)
 	return hex.EncodeToString(h.Sum(b))
 }
+
+// CalcPages
+// @author: dzsdbsdxq
+// @function: CalcPages
+// @description: 计算页数
+// @param: total，size int64
+// @return: int64
+func CalcPages(total, size int64) int64 {
+	pages := total / size
+	if total%size != 0 {
+		pages++
+	}
+	return pages
+}
