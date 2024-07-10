@@ -8,6 +8,7 @@ import (
 
 type ICategoriesRepository interface {
 	CreateCategory(req *vo.CategoryReq) error
+	GetMenuTree(parentId uint, isTree bool) (menus []vo.MenuRes, err error)
 }
 
 var _ ICategoriesRepository = (*CategoriesRepository)(nil)
@@ -26,6 +27,10 @@ func (c *CategoriesRepository) CreateCategory(req *vo.CategoryReq) error {
 		Password: req.Password,
 		Desc:     req.Desc,
 	})
+}
+
+func (c *CategoriesRepository) GetMenuTree(parentId uint, isTree bool) (menus []vo.MenuRes, err error) {
+	return c.dao.GetMenuTree(parentId, isTree)
 }
 
 func NewCategoriesRepository(dao dao.ICategoriesDao) *CategoriesRepository {

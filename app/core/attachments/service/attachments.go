@@ -33,7 +33,7 @@ func (a *AttachmentsService) AdminGetAttachments(req *vo.AttachmentsGetReq) ([]*
 
 	for _, list := range lists {
 		res = append(res, &vo.AttachmentsRes{
-			Url:       filepath.Join(global.G_DZ_CONFIG.System.Domain, list.FilePath),
+			Url:       filepath.Join(global.G_DZ_CONFIG.Local.BaseUrl, list.FilePath),
 			Path:      list.FilePath,
 			Driver:    "local",
 			CreatedAt: list.CreatedAt.Format(time.DateTime),

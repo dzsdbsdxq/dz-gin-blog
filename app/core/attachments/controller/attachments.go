@@ -59,7 +59,7 @@ func (a *AttachmentsHandler) AdminUploadFile(ctx *gin.Context) (*global.Response
 	}
 
 	return global.SuccessResponseWithData(&vo.AttachmentsRes{
-		Url:       filepath.Join(global.G_DZ_CONFIG.System.Domain, at.FilePath),
+		Url:       filepath.Join(global.G_DZ_CONFIG.Local.BaseUrl, at.FilePath),
 		Path:      at.FilePath,
 		Driver:    "local",
 		CreatedAt: time.Now().Format(time.DateTime),

@@ -7,6 +7,7 @@ import (
 
 type ICategoryService interface {
 	AdminCreateCategory(req *vo.CategoryReq) error
+	GetMenuTree(parentId uint, isTree bool) (menus []vo.MenuRes, err error)
 }
 
 var _ ICategoryService = (*CategoryService)(nil)
@@ -17,6 +18,10 @@ type CategoryService struct {
 
 func (c *CategoryService) AdminCreateCategory(req *vo.CategoryReq) error {
 	return c.repo.CreateCategory(req)
+}
+
+func (c *CategoryService) GetMenuTree(parentId uint, isTree bool) (menus []vo.MenuRes, err error) {
+	return c.repo.GetMenuTree(parentId, isTree)
 }
 
 func NewCategoryService(repo repo.ICategoriesRepository) *CategoryService {
