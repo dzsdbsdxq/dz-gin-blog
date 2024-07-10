@@ -24,6 +24,7 @@ func (c *CategoryHandler) RegisterRoutes(engine *gin.Engine) {
 	adminGroup := engine.Group("/admin-api/categories")
 	adminGroup.POST("/create", global.WrapWithBody(c.adminCreateCategories))
 	adminGroup.GET("/lists", global.WrapWithBody(c.adminGetCategoriesLists))
+	//adminGroup.PUT("/update",global.WrapWithBody())
 }
 
 func (c *CategoryHandler) adminCreateCategories(ctx *gin.Context, req vo.CategoryReq) (*global.ResponseBody[any], error) {
