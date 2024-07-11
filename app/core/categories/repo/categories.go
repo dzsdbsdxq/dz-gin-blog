@@ -4,12 +4,11 @@ import (
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/categories/model"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/categories/repo/dao"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/categories/vo"
-	"github.com/dzsdbsdxq/dz-gin-blog/app/global"
 )
 
 type ICategoriesRepository interface {
-	CreateCategory(req *vo.CategoryReq) error
-	UpdateCategory(id uint64, req *vo.CategoryReq) error
+	CreateCategory(category *model.SysCategories) error
+	UpdateCategory(category *model.SysCategories) error
 	DeleteCategory(id uint64) error
 	GetMenuTree(parentId uint, isTree bool) (menus []vo.MenuRes, err error)
 }
@@ -20,34 +19,15 @@ type CategoriesRepository struct {
 	dao dao.ICategoriesDao
 }
 
-func (c *CategoriesRepository) CreateCategory(req *vo.CategoryReq) error {
-	return c.dao.Create(&model.SysCategories{
-		ParentId: req.ParentId,
-		SortBy:   req.SortBy,
-		Name:     req.Name,
-		Slug:     req.Slug,
-		Thumb:    req.Thumb,
-		Password: req.Password,
-		Desc:     req.Desc,
-	})
+func (c *CategoriesRepository) CreateCategory(category *model.SysCategories) error {
+	return c.dao.Create(category)
 }
 
 func (c *CategoriesRepository) GetMenuTree(parentId uint, isTree bool) (menus []vo.MenuRes, err error) {
 	return c.dao.GetMenuTree(parentId, isTree)
 }
-func (c *CategoriesRepository) UpdateCategory(id uint64, req *vo.CategoryReq) error {
-	return c.dao.Update(&model.SysCategories{
-		Model: global.Model{
-			ID: id,
-		},
-		ParentId: req.ParentId,
-		SortBy:   req.SortBy,
-		Name:     req.Name,
-		Slug:     req.Slug,
-		Thumb:    req.Thumb,
-		Password: req.Password,
-		Desc:     req.Desc,
-	})
+func (c *CategoriesRepository) UpdateCategory(category *model.SysCategories) error {
+	return c.dao.Update(category)
 }
 
 func (c *CategoriesRepository) DeleteCategory(id uint64) error {

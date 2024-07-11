@@ -12,6 +12,7 @@ import (
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/oss"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/post_category"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/posts"
+	"github.com/dzsdbsdxq/dz-gin-blog/app/core/tags"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/users"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/initialize"
 	"github.com/gin-gonic/gin"
@@ -30,7 +31,9 @@ func initializeApp() (*gin.Engine, error) {
 	post_categoryModule := post_category.InitPostCategoriesModule()
 	categoriesModule := categories.InitCategoriesModule(post_categoryModule)
 	categoryHandler := categoriesModule.Hdl
-	engine, err := initialize.NewGinEngine(postHandler, userHandler, attachmentsHandler, categoryHandler)
+	tagsModule := tags.InitTagsModule()
+	tagsHandler := tagsModule.Hdl
+	engine, err := initialize.NewGinEngine(postHandler, userHandler, attachmentsHandler, categoryHandler, tagsHandler)
 	if err != nil {
 		return nil, err
 	}

@@ -3,6 +3,7 @@ package service
 import (
 	"errors"
 	"fmt"
+	"github.com/dzsdbsdxq/dz-gin-blog/app/core/categories/model"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/categories/repo"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/categories/vo"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/post_category"
@@ -24,10 +25,31 @@ type CategoryService struct {
 }
 
 func (c *CategoryService) AdminCreateCategory(req *vo.CategoryReq) error {
-	return c.repo.CreateCategory(req)
+	category := &model.SysCategories{
+		ParentId: req.ParentId,
+		SortBy:   req.SortBy,
+		Name:     req.Name,
+		Slug:     req.Slug,
+		Thumb:    req.Thumb,
+		Password: req.Password,
+		Desc:     req.Desc,
+	}
+	return c.repo.CreateCategory(category)
 }
 func (c *CategoryService) AdminUpdateCategory(id uint64, req *vo.CategoryReq) error {
-	return c.repo.UpdateCategory(id, req)
+	category := &model.SysCategories{
+		Model: global.Model{
+			ID: id,
+		},
+		ParentId: req.ParentId,
+		SortBy:   req.SortBy,
+		Name:     req.Name,
+		Slug:     req.Slug,
+		Thumb:    req.Thumb,
+		Password: req.Password,
+		Desc:     req.Desc,
+	}
+	return c.repo.UpdateCategory(category)
 }
 
 func (c *CategoryService) GetMenuTree(parentId uint, isTree bool) (menus []vo.MenuRes, err error) {
