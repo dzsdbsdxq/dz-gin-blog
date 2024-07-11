@@ -24,6 +24,10 @@ type CategoryService struct {
 	pcService post_category.Service
 }
 
+func NewCategoryService(repo repo.ICategoriesRepository, pcService post_category.Service) *CategoryService {
+	return &CategoryService{repo: repo, pcService: pcService}
+}
+
 func (c *CategoryService) AdminCreateCategory(req *vo.CategoryReq) error {
 	category := &model.SysCategories{
 		ParentId: req.ParentId,
@@ -67,8 +71,4 @@ func (c *CategoryService) AdminDeleteCategory(id uint) error {
 		return errors.New(fmt.Sprintf("%s", global.GetErrorMsg(402000014, "")))
 	}
 	return c.repo.DeleteCategory(uint64(id))
-}
-
-func NewCategoryService(repo repo.ICategoriesRepository, pcService post_category.Service) *CategoryService {
-	return &CategoryService{repo: repo, pcService: pcService}
 }
