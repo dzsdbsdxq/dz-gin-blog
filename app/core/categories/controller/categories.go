@@ -5,6 +5,7 @@ import (
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/categories/vo"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/global"
 	"github.com/gin-gonic/gin"
+	"strconv"
 )
 
 type CategoryHandler struct {
@@ -24,15 +25,16 @@ func (c *CategoryHandler) RegisterRoutes(engine *gin.Engine) {
 	adminGroup := engine.Group("/admin-api/categories")
 	adminGroup.POST("/create", global.WrapWithBody(c.adminCreateCategories))
 	adminGroup.GET("/lists", global.WrapWithBody(c.adminGetCategoriesLists))
-	//adminGroup.PUT("/update",global.WrapWithBody())
+	adminGroup.PUT("/update/:id", global.WrapWithBody(c.adminUpdateCategories))
+	adminGroup.DELETE("/delete/:id", global.Wrap(c.adminDeleteCategories))
 }
 
 func (c *CategoryHandler) adminCreateCategories(ctx *gin.Context, req vo.CategoryReq) (*global.ResponseBody[any], error) {
 	if req.Name == "" {
-		return global.ErrorResponse("名称不能为空"), nil
+		return global.ErrorResponse(402000002, ""), nil
 	}
 	if req.Slug == "" {
-		return global.ErrorResponse("别名不能为空"), nil
+		return global.ErrorResponse(402000003, ""), nil
 	}
 	return global.SuccessResponse(), c.serv.AdminCreateCategory(&req)
 }
@@ -43,4 +45,14 @@ func (c *CategoryHandler) adminGetCategoriesLists(ctx *gin.Context, req vo.Categ
 		return nil, err
 	}
 	return global.SuccessResponseWithData(tree), nil
+}
+
+func (c *CategoryHandler) adminUpdateCategories(ctx *gin.Context, req vo.CategoryReq) (*global.ResponseBody[any], error) {
+	id, _ := strconv.ParseUint(ctx.Param("id"), 10, 64)
+	return global.SuccessResponse(), c.serv.AdminUpdateCategory(id, &req)
+
+}
+func (c *CategoryHandler) adminDeleteCategories(ctx *gin.Context) (*global.ResponseBody[any], error) {
+	id, _ := strconv.ParseUint(ctx.Param("id"), 10, 64)
+	return global.SuccessResponse(), c.serv.AdminDeleteCategory(uint(id))
 }

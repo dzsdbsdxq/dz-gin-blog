@@ -14,7 +14,7 @@ type ICategoriesDao interface {
 	Update(category *model.SysCategories) error
 	GetCategoryBySlug(slug string) (sysCategory *model.SysCategories, err error)
 	GetCategoryDetailById(id uint) (sysCategory *model.SysCategories, err error)
-	DeleteCategoriesByIds(ids global.IdsReq) error
+	DeleteCategoriesById(id uint64) error
 	getChildrenList(menu *vo.MenuRes, treeMap vo.MenuTreeMap) (err error)
 	getMenuTreeMap() (treeMap vo.MenuTreeMap, err error)
 	GetMenuTree(parentId uint, isTree bool) (menus []vo.MenuRes, err error)
@@ -35,7 +35,7 @@ type CategoriesDao struct {
 func (c *CategoriesDao) Create(category *model.SysCategories) error {
 	_, err := c.GetCategoryBySlug(category.Slug)
 	if !errors.Is(err, gorm.ErrRecordNotFound) {
-		return errors.New(fmt.Sprintf("存在相同的别名:%s", category.Slug))
+		return errors.New(fmt.Sprintf("%s:%s", global.GetErrorMsg(402000012, ""), category.Slug))
 	}
 	return c.coll.Create(category).Error
 }
@@ -97,14 +97,20 @@ func (c *CategoriesDao) GetMenuTree(parentId uint, isTree bool) (menus []vo.Menu
 	return menus, err
 }
 func (c *CategoriesDao) Update(category *model.SysCategories) error {
-	_, err := c.GetCategoryBySlug(category.Slug)
-	if !errors.Is(err, gorm.ErrRecordNotFound) {
-		return errors.New(fmt.Sprintf("存在相同的别名:%s", category.Slug))
+
+	dict, err := c.GetCategoryDetailById(uint(category.ID))
+
+	if dict.Slug != category.Slug {
+		_, err = c.GetCategoryBySlug(category.Slug)
+		if !errors.Is(err, gorm.ErrRecordNotFound) {
+			return errors.New(fmt.Sprintf("%s:%s", global.GetErrorMsg(402000012, ""), category.Slug))
+		}
 	}
-	return c.coll.Save(category).Error
+
+	return c.coll.Updates(category).Error
 }
 
-func (c *CategoriesDao) DeleteCategoriesByIds(ids global.IdsReq) error {
-	var categories []model.SysCategories
-	return c.coll.Find(categories, "id in ?", ids.Ids).Delete(&categories).Error
+func (c *CategoriesDao) DeleteCategoriesById(id uint64) error {
+	var categories model.SysCategories
+	return c.coll.Find(&categories, "id = ?", id).Delete(&categories).Error
 }

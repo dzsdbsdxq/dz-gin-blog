@@ -16,10 +16,10 @@ type ResponseBody[T any] struct {
 func (er ResponseBody[T]) Error() string {
 	return fmt.Sprintf("%d:%s", er.Code, er.Message)
 }
-func ErrorResponse(message string) *ResponseBody[any] {
+func ErrorResponse(errCode int, errMsg string) *ResponseBody[any] {
 	return &ResponseBody[any]{
 		Code:    -1,
-		Message: message,
+		Message: GetErrorMsg(errCode, errMsg),
 	}
 }
 func SuccessResponse() *ResponseBody[any] {
@@ -65,7 +65,7 @@ func ErrorHandler(ctx *gin.Context, err error) {
 	l := slog.Default().With("X-Request-ID", ctx.GetString("X-Request-ID"))
 	l.ErrorContext(ctx, err.Error())
 	G_DZ_LOG.Errorf("stack trace: \n%+v\n", err)
-	ctx.JSON(http.StatusOK, ErrorResponse(err.Error()))
+	ctx.JSON(http.StatusOK, ErrorResponse(0, err.Error()))
 }
 func Wrap[T any](fn func(ctx *gin.Context) (T, error)) gin.HandlerFunc {
 	return func(ctx *gin.Context) {

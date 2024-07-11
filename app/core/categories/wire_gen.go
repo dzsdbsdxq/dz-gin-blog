@@ -11,15 +11,17 @@ import (
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/categories/repo"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/categories/repo/dao"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/categories/service"
+	"github.com/dzsdbsdxq/dz-gin-blog/app/core/post_category"
 	"github.com/google/wire"
 )
 
 // Injectors from wire.go:
 
-func InitCategoriesModule() *Module {
+func InitCategoriesModule(pcModel *post_category.Module) *Module {
 	categoriesDao := dao.NewCategoriesDao()
 	categoriesRepository := repo.NewCategoriesRepository(categoriesDao)
-	categoryService := service.NewCategoryService(categoriesRepository)
+	iPostCategoryService := pcModel.Svc
+	categoryService := service.NewCategoryService(categoriesRepository, iPostCategoryService)
 	categoryHandler := controller.NewCategoryHandler(categoryService)
 	module := &Module{
 		Svc: categoryService,

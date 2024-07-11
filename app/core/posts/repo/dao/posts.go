@@ -74,7 +74,7 @@ func (p *PostDao) GetPostDetailById(id uint) (sysPost *model.SysPosts, err error
 func (p *PostDao) Update(post *model.SysPosts) error {
 	_, err := p.GetPostDetailBySlug(post.Slug)
 	if !errors.Is(err, gorm.ErrRecordNotFound) {
-		return errors.New(fmt.Sprintf("存在相同的别名:%s", post.Slug))
+		return errors.New(fmt.Sprintf("%s:%s", global.GetErrorMsg(401000006, ""), post.Slug))
 	}
 	return p.coll.Save(&post).Error
 }

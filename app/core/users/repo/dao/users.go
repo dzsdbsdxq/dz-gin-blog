@@ -31,7 +31,7 @@ type UserDao struct {
 func (u *UserDao) Create(user *model.SysUsers) error {
 	_, err := u.GetUserDetailByUserName(user.UserName)
 	if !errors.Is(err, gorm.ErrRecordNotFound) {
-		return errors.New(fmt.Sprintf("存在相同的用户:%s", user.UserName))
+		return errors.New(fmt.Sprintf("%s:%s", global.GetErrorMsg(408000000, ""), user.UserName))
 	}
 	return u.coll.Create(&user).Error
 }
@@ -44,7 +44,7 @@ func (u *UserDao) GetUserDetailById(id uint) (sysUser *model.SysUsers, err error
 func (u *UserDao) Update(user *model.SysUsers) error {
 	_, err := u.GetUserDetailByUserName(user.UserName)
 	if !errors.Is(err, gorm.ErrRecordNotFound) {
-		return errors.New(fmt.Sprintf("存在相同的别名:%s", user.UserName))
+		return errors.New(fmt.Sprintf("%s:%s", global.GetErrorMsg(408000000, ""), user.UserName))
 	}
 	return u.coll.Save(&user).Error
 }
