@@ -12,12 +12,13 @@ import (
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/posts/repo/dao"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/posts/service"
 	"github.com/google/wire"
+	"gorm.io/gorm"
 )
 
 // Injectors from wire.go:
 
-func InitPostModule() *Module {
-	postDao := dao.NewPostDao()
+func InitPostModule(db *gorm.DB) *Module {
+	postDao := dao.NewPostDao(db)
 	postRepository := repo.NewPostRepository(postDao)
 	postService := service.NewPostService(postRepository)
 	postHandler := controller.NewPostHandler(postService)

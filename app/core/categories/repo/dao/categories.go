@@ -22,9 +22,9 @@ type ICategoriesDao interface {
 
 var _ ICategoriesDao = (*CategoriesDao)(nil)
 
-func NewCategoriesDao() *CategoriesDao {
+func NewCategoriesDao(db *gorm.DB) *CategoriesDao {
 	return &CategoriesDao{
-		coll: global.G_DZ_DB,
+		coll: db,
 	}
 }
 

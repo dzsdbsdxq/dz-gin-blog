@@ -21,17 +21,18 @@ import (
 // Injectors from wire.go:
 
 func initializeApp() (*gin.Engine, error) {
-	module := posts.InitPostModule()
+	db := initialize.NewMysql()
+	module := posts.InitPostModule(db)
 	postHandler := module.Hdl
-	usersModule := users.InitUsersModule()
+	usersModule := users.InitUsersModule(db)
 	userHandler := usersModule.Hdl
 	ossModule := oss.InitOssModule()
-	attachmentsModule := attachments.InitAttachmentsModule(ossModule)
+	attachmentsModule := attachments.InitAttachmentsModule(db, ossModule)
 	attachmentsHandler := attachmentsModule.Hdl
-	post_categoryModule := post_category.InitPostCategoriesModule()
-	categoriesModule := categories.InitCategoriesModule(post_categoryModule)
+	post_categoryModule := post_category.InitPostCategoriesModule(db)
+	categoriesModule := categories.InitCategoriesModule(db, post_categoryModule)
 	categoryHandler := categoriesModule.Hdl
-	tagsModule := tags.InitTagsModule()
+	tagsModule := tags.InitTagsModule(db)
 	tagsHandler := tagsModule.Hdl
 	engine, err := initialize.NewGinEngine(postHandler, userHandler, attachmentsHandler, categoryHandler, tagsHandler)
 	if err != nil {

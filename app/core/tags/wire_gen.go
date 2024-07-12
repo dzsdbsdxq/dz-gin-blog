@@ -12,12 +12,13 @@ import (
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/tags/repo/dao"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/tags/service"
 	"github.com/google/wire"
+	"gorm.io/gorm"
 )
 
 // Injectors from wire.go:
 
-func InitTagsModule() *Module {
-	tagsDao := dao.NewTagsDao()
+func InitTagsModule(db *gorm.DB) *Module {
+	tagsDao := dao.NewTagsDao(db)
 	tagsRepository := repo.NewTagRepository(tagsDao)
 	tagService := service.NewTagService(tagsRepository)
 	tagsHandler := controller.NewTagsHandler(tagService)

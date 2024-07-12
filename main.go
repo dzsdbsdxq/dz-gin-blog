@@ -7,7 +7,6 @@ import (
 func main() {
 	initialize.InitViper()
 	initialize.InitZapLogger()
-	initialize.InitMysql()
 	initialize.InitCache()
 	app, err := initializeApp()
 	if err != nil {

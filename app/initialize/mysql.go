@@ -43,24 +43,24 @@ func _gormConfig(prefix string, singular bool) *gorm.Config {
 	return config
 }
 
-func InitMysql() {
+func NewMysql() *gorm.DB {
 	var err error
 	m := global.G_DZ_CONFIG.Mysql
 	if m.Dbname == "" {
-		return
+		return nil
 	}
 	mysqlConfig := mysql.Config{
 		DSN:                       m.Dsn(), // DSN data source name
-		DefaultStringSize:         191,     // string 类型字段的默认长度
+		DefaultStringSize:         255,     // string 类型字段的默认长度
 		SkipInitializeWithVersion: false,   // 根据版本自动配置
 	}
-	global.G_DZ_DB, err = gorm.Open(mysql.New(mysqlConfig), _gormConfig(m.Prefix, m.Singular))
+	db, err := gorm.Open(mysql.New(mysqlConfig), _gormConfig(m.Prefix, m.Singular))
 	if err != nil {
-		return
+		return nil
 	}
-	global.G_DZ_DB.InstanceSet("gorm:table_options", "ENGINE="+m.Engine)
-	sqlDB, _ := global.G_DZ_DB.DB()
+	db.InstanceSet("gorm:table_options", "ENGINE="+m.Engine)
+	sqlDB, _ := db.DB()
 	sqlDB.SetMaxIdleConns(m.MaxIdleConns)
 	sqlDB.SetMaxOpenConns(m.MaxOpenConns)
-	global.G_DZ_LOG.Info("初始化Mysql完成!")
+	return db
 }

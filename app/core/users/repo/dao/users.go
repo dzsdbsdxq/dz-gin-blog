@@ -18,9 +18,9 @@ type IUserDao interface {
 
 var _ IUserDao = (*UserDao)(nil)
 
-func NewUserDao() *UserDao {
+func NewUserDao(db *gorm.DB) *UserDao {
 	return &UserDao{
-		coll: global.G_DZ_DB,
+		coll: db,
 	}
 }
 

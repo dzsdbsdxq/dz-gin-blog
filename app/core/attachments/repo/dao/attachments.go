@@ -3,7 +3,6 @@ package dao
 import (
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/attachments/model"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/attachments/vo"
-	"github.com/dzsdbsdxq/dz-gin-blog/app/global"
 	"gorm.io/gorm"
 )
 
@@ -14,9 +13,9 @@ type IAttachmentsDao interface {
 
 var _ IAttachmentsDao = (*AttachmentsDao)(nil)
 
-func NewAttachmentsDao() *AttachmentsDao {
+func NewAttachmentsDao(db *gorm.DB) *AttachmentsDao {
 	return &AttachmentsDao{
-		coll: global.G_DZ_DB,
+		coll: db,
 	}
 }
 

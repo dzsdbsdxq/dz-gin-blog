@@ -9,6 +9,7 @@ import (
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/categories/service"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/post_category"
 	"github.com/google/wire"
+	"gorm.io/gorm"
 )
 
 var CategoryProviders = wire.NewSet(
@@ -21,7 +22,7 @@ var CategoryProviders = wire.NewSet(
 	wire.Bind(new(dao.ICategoriesDao), new(*dao.CategoriesDao)),
 )
 
-func InitCategoriesModule(pcModel *post_category.Module) *Module {
+func InitCategoriesModule(db *gorm.DB, pcModel *post_category.Module) *Module {
 	panic(wire.Build(
 		CategoryProviders,
 		wire.FieldsOf(new(*post_category.Module), "Svc"),

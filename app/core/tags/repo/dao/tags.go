@@ -19,9 +19,9 @@ type ITagsDao interface {
 
 var _ ITagsDao = (*TagsDao)(nil)
 
-func NewTagsDao() *TagsDao {
+func NewTagsDao(db *gorm.DB) *TagsDao {
 	return &TagsDao{
-		coll: global.G_DZ_DB,
+		coll: db,
 	}
 }
 

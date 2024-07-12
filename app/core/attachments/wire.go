@@ -9,6 +9,7 @@ import (
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/attachments/service"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/oss"
 	"github.com/google/wire"
+	"gorm.io/gorm"
 )
 
 var AttachmentsProviders = wire.NewSet(
@@ -21,7 +22,7 @@ var AttachmentsProviders = wire.NewSet(
 	wire.Bind(new(dao.IAttachmentsDao), new(*dao.AttachmentsDao)),
 )
 
-func InitAttachmentsModule(ossMdl *oss.Module) *Module {
+func InitAttachmentsModule(db *gorm.DB, ossMdl *oss.Module) *Module {
 	panic(wire.Build(
 		AttachmentsProviders,
 		wire.FieldsOf(new(*oss.Module), "Svc"),

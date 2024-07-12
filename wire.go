@@ -18,6 +18,7 @@ import (
 func initializeApp() (*gin.Engine, error) {
 	panic(wire.Build(
 		initialize.NewGinEngine,
+		initialize.NewMysql,
 		posts.InitPostModule,
 		oss.InitOssModule,
 		post_category.InitPostCategoriesModule,

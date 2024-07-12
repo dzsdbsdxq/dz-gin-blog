@@ -11,12 +11,13 @@ import (
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/post_category/repo/dao"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/post_category/service"
 	"github.com/google/wire"
+	"gorm.io/gorm"
 )
 
 // Injectors from wire.go:
 
-func InitPostCategoriesModule() *Module {
-	postCategoryDao := dao.NewPostCategoryDao()
+func InitPostCategoriesModule(db *gorm.DB) *Module {
+	postCategoryDao := dao.NewPostCategoryDao(db)
 	postCategoryRepository := repo.NewPostCategoryRepository(postCategoryDao)
 	postCategoryService := service.NewPostCategoryService(postCategoryRepository)
 	module := &Module{

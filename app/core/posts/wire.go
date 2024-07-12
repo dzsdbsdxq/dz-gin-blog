@@ -8,6 +8,7 @@ import (
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/posts/repo/dao"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/posts/service"
 	"github.com/google/wire"
+	"gorm.io/gorm"
 )
 
 var PostProviders = wire.NewSet(
@@ -21,7 +22,7 @@ var PostProviders = wire.NewSet(
 	wire.Bind(new(dao.IPostDao), new(*dao.PostDao)),
 )
 
-func InitPostModule() *Module {
+func InitPostModule(db *gorm.DB) *Module {
 	panic(wire.Build(
 		PostProviders,
 		//wire.FieldsOf(new(*website_config.Module), "Svc"),

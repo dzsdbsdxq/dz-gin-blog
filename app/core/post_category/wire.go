@@ -7,6 +7,7 @@ import (
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/post_category/repo/dao"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/post_category/service"
 	"github.com/google/wire"
+	"gorm.io/gorm"
 )
 
 var PostCategoryProviders = wire.NewSet(
@@ -18,7 +19,7 @@ var PostCategoryProviders = wire.NewSet(
 	wire.Bind(new(dao.IPostCategoryDao), new(*dao.PostCategoryDao)),
 )
 
-func InitPostCategoriesModule() *Module {
+func InitPostCategoriesModule(db *gorm.DB) *Module {
 	panic(wire.Build(
 		PostCategoryProviders,
 		wire.Struct(new(Module), "Svc"),

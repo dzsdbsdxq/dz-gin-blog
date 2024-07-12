@@ -2,7 +2,6 @@ package dao
 
 import (
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/post_category/model"
-	"github.com/dzsdbsdxq/dz-gin-blog/app/global"
 	"gorm.io/gorm"
 )
 
@@ -15,9 +14,9 @@ type IPostCategoryDao interface {
 
 var _ IPostCategoryDao = (*PostCategoryDao)(nil)
 
-func NewPostCategoryDao() *PostCategoryDao {
+func NewPostCategoryDao(db *gorm.DB) *PostCategoryDao {
 	return &PostCategoryDao{
-		coll: global.G_DZ_DB,
+		coll: db,
 	}
 }
 

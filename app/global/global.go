@@ -10,7 +10,6 @@ import (
 )
 
 var (
-	G_DZ_DB     *gorm.DB
 	G_DZ_VP     *viper.Viper
 	G_DZ_LOG    *zap.SugaredLogger
 	G_DZ_CONFIG = new(config.Config)

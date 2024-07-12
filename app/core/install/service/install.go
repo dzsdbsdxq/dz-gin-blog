@@ -25,7 +25,6 @@ func (i *InstallService) RegisterTables() error {
 		attachments.AttachmentModel{},
 		categories.CategoryModel{},
 		comments.CommentModel{},
-
 	)
 	if err != nil {
 		global.G_DZ_LOG.Error("register table failed", zap.Error(err))
@@ -35,6 +34,6 @@ func (i *InstallService) RegisterTables() error {
 	return err
 }
 
-func NewInstallService() *InstallService {
-	return &InstallService{coll: global.G_DZ_DB}
+func NewInstallService(db *gorm.DB) *InstallService {
+	return &InstallService{coll: db}
 }

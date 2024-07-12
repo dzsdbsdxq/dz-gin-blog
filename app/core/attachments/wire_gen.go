@@ -13,12 +13,13 @@ import (
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/attachments/service"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/oss"
 	"github.com/google/wire"
+	"gorm.io/gorm"
 )
 
 // Injectors from wire.go:
 
-func InitAttachmentsModule(ossMdl *oss.Module) *Module {
-	attachmentsDao := dao.NewAttachmentsDao()
+func InitAttachmentsModule(db *gorm.DB, ossMdl *oss.Module) *Module {
+	attachmentsDao := dao.NewAttachmentsDao(db)
 	attachmentsRepository := repo.NewAttachmentsRepository(attachmentsDao)
 	attachmentsService := service.NewAttachmentsService(attachmentsRepository)
 	iOssService := ossMdl.Svc

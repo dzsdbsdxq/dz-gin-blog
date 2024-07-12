@@ -19,9 +19,9 @@ type IPostDao interface {
 
 var _ IPostDao = (*PostDao)(nil)
 
-func NewPostDao() *PostDao {
+func NewPostDao(db *gorm.DB) *PostDao {
 	return &PostDao{
-		coll: global.G_DZ_DB,
+		coll: db,
 	}
 }
 

@@ -2,7 +2,6 @@ package dao
 
 import (
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/posts_tags/model"
-	"github.com/dzsdbsdxq/dz-gin-blog/app/global"
 	"gorm.io/gorm"
 )
 
@@ -13,9 +12,9 @@ type IPostTagDao interface {
 
 var _ IPostTagDao = (*PostTagDao)(nil)
 
-func NewPostTagDao() *PostTagDao {
+func NewPostTagDao(db *gorm.DB) *PostTagDao {
 	return &PostTagDao{
-		coll: global.G_DZ_DB,
+		coll: db,
 	}
 }
 

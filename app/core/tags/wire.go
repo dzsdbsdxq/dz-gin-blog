@@ -8,6 +8,7 @@ import (
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/tags/repo/dao"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/tags/service"
 	"github.com/google/wire"
+	"gorm.io/gorm"
 )
 
 var TagsProviders = wire.NewSet(
@@ -20,7 +21,7 @@ var TagsProviders = wire.NewSet(
 	wire.Bind(new(dao.ITagsDao), new(*dao.TagsDao)),
 )
 
-func InitTagsModule() *Module {
+func InitTagsModule(db *gorm.DB) *Module {
 	panic(wire.Build(
 		TagsProviders,
 		wire.Struct(new(Module), "Svc", "Hdl"),

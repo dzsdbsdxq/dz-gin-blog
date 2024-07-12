@@ -8,6 +8,7 @@ import (
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/users/repo/dao"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/users/service"
 	"github.com/google/wire"
+	"gorm.io/gorm"
 )
 
 var UsersProviders = wire.NewSet(
@@ -20,7 +21,7 @@ var UsersProviders = wire.NewSet(
 	wire.Bind(new(dao.IUserDao), new(*dao.UserDao)),
 )
 
-func InitUsersModule() *Module {
+func InitUsersModule(db *gorm.DB) *Module {
 	panic(wire.Build(
 		UsersProviders,
 		wire.Struct(new(Module), "Svc", "Hdl"),

@@ -13,12 +13,13 @@ import (
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/categories/service"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/post_category"
 	"github.com/google/wire"
+	"gorm.io/gorm"
 )
 
 // Injectors from wire.go:
 
-func InitCategoriesModule(pcModel *post_category.Module) *Module {
-	categoriesDao := dao.NewCategoriesDao()
+func InitCategoriesModule(db *gorm.DB, pcModel *post_category.Module) *Module {
+	categoriesDao := dao.NewCategoriesDao(db)
 	categoriesRepository := repo.NewCategoriesRepository(categoriesDao)
 	iPostCategoryService := pcModel.Svc
 	categoryService := service.NewCategoryService(categoriesRepository, iPostCategoryService)
