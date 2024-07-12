@@ -31,5 +31,5 @@ func (h *PostHandler) RegisterRoutes(engine *gin.Engine) {
 }
 
 func (h *PostHandler) adminCreatePost(ctx *gin.Context, req vo.PostReq) (*global.ResponseBody[any], error) {
-	return global.SuccessResponse(), h.serv.AdminCreatePost(&req)
+	return global.SuccessResponse(), h.serv.CreatePost(&req)
 }

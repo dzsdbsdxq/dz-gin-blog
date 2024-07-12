@@ -7,7 +7,8 @@ import (
 )
 
 type IPostRepository interface {
-	AdminCreatePost(post *vo.PostReq) error
+	CreatePost(post *vo.PostReq) error
+	FindPostById(id uint) (*model.SysPosts, error)
 }
 
 var _ IPostRepository = (*PostRepository)(nil)
@@ -22,7 +23,7 @@ type PostRepository struct {
 	dao dao.IPostDao
 }
 
-func (pr *PostRepository) AdminCreatePost(post *vo.PostReq) error {
+func (pr *PostRepository) CreatePost(post *vo.PostReq) error {
 	return pr.dao.Create(&model.SysPosts{
 		Title:           post.Title,
 		Body:            post.Body,
@@ -42,4 +43,8 @@ func (pr *PostRepository) AdminCreatePost(post *vo.PostReq) error {
 		SeoKey:          post.SeoKey,
 		SeoDesc:         post.SeoDesc,
 	})
+}
+
+func (pr *PostRepository) FindPostById(id uint) (*model.SysPosts, error) {
+	return pr.dao.GetPostDetailById(id)
 }

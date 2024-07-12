@@ -6,7 +6,8 @@ import (
 )
 
 type IPostService interface {
-	AdminCreatePost(post *vo.PostReq) error
+	CreatePost(post *vo.PostReq) error
+	FindPostByPostId(id uint) (*vo.PostsRes, error)
 }
 
 var _ IPostService = (*PostService)(nil)
@@ -26,7 +27,35 @@ func NewPostService(repo repo.IPostRepository) *PostService {
 	//go s.subscribeCommentEvent()
 	return s
 }
-func (ps *PostService) AdminCreatePost(post *vo.PostReq) error {
+func (ps *PostService) CreatePost(post *vo.PostReq) error {
 	//TODO 需要在这里处理一些额外的事情
-	return ps.repo.AdminCreatePost(post)
+	return ps.repo.CreatePost(post)
+}
+func (ps *PostService) FindPostByPostId(id uint) (*vo.PostsRes, error) {
+	post, err := ps.repo.FindPostById(id)
+	if err != nil {
+		return nil, err
+	}
+	return &vo.PostsRes{
+		ID:              post.ID,
+		Title:           post.Title,
+		Body:            post.Body,
+		Extend:          post.Extend,
+		Thumb:           post.Thumb,
+		CommentAccepted: post.CommentAccepted,
+		Recommend:       post.Recommend,
+		Status:          post.Status,
+		Top:             post.Top,
+		SortBy:          post.SortBy,
+		Flag:            post.Flag,
+		Views:           post.Views,
+		Likes:           post.Likes,
+		Password:        post.Password,
+		Slug:            post.Slug,
+		Desc:            post.Desc,
+		SeoKey:          post.SeoKey,
+		SeoDesc:         post.SeoDesc,
+		CreatedAt:       post.CreatedAt,
+	}, nil
+
 }

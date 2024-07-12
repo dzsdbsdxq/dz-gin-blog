@@ -3,6 +3,7 @@ package utils
 import (
 	"crypto/md5"
 	"encoding/hex"
+	"regexp"
 )
 
 //@author: dzsdbsdxq
@@ -29,4 +30,13 @@ func CalcPages(total, size int64) int64 {
 		pages++
 	}
 	return pages
+}
+
+func EmailVerify(email string) bool {
+	result, _ := regexp.MatchString("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$", email)
+	if result {
+		return true
+	} else {
+		return false
+	}
 }

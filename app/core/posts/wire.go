@@ -16,7 +16,6 @@ var PostProviders = wire.NewSet(
 	service.NewPostService,
 	repo.NewPostRepository,
 	dao.NewPostDao,
-	//web.NewPostHandler, service.NewPostService, repository.NewPostRepository, dao.NewPostDao,
 	wire.Bind(new(service.IPostService), new(*service.PostService)),
 	wire.Bind(new(repo.IPostRepository), new(*repo.PostRepository)),
 	wire.Bind(new(dao.IPostDao), new(*dao.PostDao)),

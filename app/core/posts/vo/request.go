@@ -1,5 +1,8 @@
 package vo
 
+type IdReq struct {
+	ID uint `json:"id" form:"id"`
+}
 type PostReq struct {
 	Title           string `json:"title"`
 	Body            string `json:"body"`

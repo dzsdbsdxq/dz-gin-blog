@@ -92,6 +92,11 @@ var ErrorMsg = map[int]string{
 
 	//users
 	408000000: "存在相同的用户名",
+
+	//comments
+	409000000: "昵称不能为空",
+	409000001: "邮箱不能为空",
+	409000002: "内容不能为空",
 }
 
 func GetErrorMsg(code int, err string) string {
