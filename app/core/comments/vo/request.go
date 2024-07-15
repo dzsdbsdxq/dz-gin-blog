@@ -21,3 +21,8 @@ type CommentsReq struct {
 	Body      string `json:"body" form:"body"`
 	FromTitle string `json:"from_title" form:"from_title"`
 }
+
+type CommentsListReq struct {
+	global.PageInfo
+	Status uint `json:"status" form:"status"`
+}

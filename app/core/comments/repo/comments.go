@@ -9,18 +9,28 @@ import (
 
 type ICommentsRepository interface {
 	CreateComments(comment *model.SysComments) error
-	SelectComments(req vo.GetCommentsListReq) ([]*model.SysComments, uint64, error)
+	SelectComments(req vo.GetCommentsListReq) (comments []*model.SysComments, total int64, err error)
 	DeleteComments(ids global.IdsReq) error
+	UpdateComments(comment *model.SysComments) error
+	FindCommentById(id uint64) (comment *model.SysComments, err error)
 }
 type CommentsRepository struct {
 	dao dao.ICommentsDao
+}
+
+func (c *CommentsRepository) FindCommentById(id uint64) (comment *model.SysComments, err error) {
+	return c.dao.FindById(id)
+}
+
+func (c *CommentsRepository) UpdateComments(comment *model.SysComments) error {
+	return c.dao.Update(comment)
 }
 
 func (c *CommentsRepository) CreateComments(comment *model.SysComments) error {
 	return c.dao.Create(comment)
 }
 
-func (c *CommentsRepository) SelectComments(req vo.GetCommentsListReq) ([]*model.SysComments, uint64, error) {
+func (c *CommentsRepository) SelectComments(req vo.GetCommentsListReq) (comments []*model.SysComments, total int64, err error) {
 	return c.dao.GetCommentsLists(req)
 }
 

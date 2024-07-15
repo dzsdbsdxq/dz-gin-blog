@@ -97,6 +97,7 @@ var ErrorMsg = map[int]string{
 	409000000: "昵称不能为空",
 	409000001: "邮箱不能为空",
 	409000002: "内容不能为空",
+	409000003: "评论不存在",
 }
 
 func GetErrorMsg(code int, err string) string {
