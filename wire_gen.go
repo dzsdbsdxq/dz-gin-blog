@@ -9,6 +9,7 @@ package main
 import (
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/attachments"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/categories"
+	"github.com/dzsdbsdxq/dz-gin-blog/app/core/comments"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/oss"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/post_category"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/posts"
@@ -34,7 +35,9 @@ func initializeApp() (*gin.Engine, error) {
 	categoryHandler := categoriesModule.Hdl
 	tagsModule := tags.InitTagsModule(db)
 	tagsHandler := tagsModule.Hdl
-	engine, err := initialize.NewGinEngine(postHandler, userHandler, attachmentsHandler, categoryHandler, tagsHandler)
+	commentsModule := comments.InitCommentsModule(db, module)
+	commentsHandler := commentsModule.Hdl
+	engine, err := initialize.NewGinEngine(postHandler, userHandler, attachmentsHandler, categoryHandler, tagsHandler, commentsHandler)
 	if err != nil {
 		return nil, err
 	}

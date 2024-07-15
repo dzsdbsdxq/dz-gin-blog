@@ -35,7 +35,7 @@ func (c *CommentsHandler) CreateComments(ctx *gin.Context, req vo.CommentsReq) (
 	if req.NickName == "" {
 		return global.ErrorResponse(409000000, ""), nil
 	}
-	if utils.EmailVerify(req.Email) {
+	if !utils.EmailVerify(req.Email) {
 		return global.ErrorResponse(409000001, ""), nil
 	}
 	//查询文章信息
@@ -45,4 +45,7 @@ func (c *CommentsHandler) CreateComments(ctx *gin.Context, req vo.CommentsReq) (
 	}
 	fmt.Printf("%+v\n", post)
 	return global.SuccessResponse(), c.serv.AddComment(req)
+}
+func Select() {
+
 }
