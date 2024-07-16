@@ -4,6 +4,7 @@ import (
 	"github.com/dzsdbsdxq/dz-gin-blog/app/initialize"
 )
 
+// hello
 func main() {
 	initialize.InitViper()
 	initialize.InitZapLogger()
