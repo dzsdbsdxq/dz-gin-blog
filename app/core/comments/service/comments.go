@@ -19,7 +19,8 @@ type CommentService struct {
 }
 
 func (c *CommentService) FindCommentById(id uint64) (*vo.CommentsRes, error) {
-	return c.repo.FindCommentById(id)
+	//return c.repo.FindCommentById(id)
+	panic("")
 }
 
 func (c *CommentService) SelectComments(req vo.GetCommentsListReq) ([]*vo.CommentsRes, int64, error) {

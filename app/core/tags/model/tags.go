@@ -4,8 +4,8 @@ import "github.com/dzsdbsdxq/dz-gin-blog/app/global"
 
 type SysTags struct {
 	global.Model
-	Name  string `json:"name" gorm:"comment:名称"`
-	Slug  string `json:"slug" gorm:"comment:别名"`
-	Thumb string `json:"thumb" gorm:"comment:缩略图"`
-	Nums  int    `json:"nums" gorm:"comment:文章数"`
+	Name  string `gorm:"column:name;type:varchar(255);not null;default:'';comment:名称"`
+	Slug  string `gorm:"column:slug;type:varchar(255);not null;default:'';index:key_slug;comment:别名"`
+	Thumb string `gorm:"column:thumb;type:varchar(255);not null;default:'';comment:缩略图"`
+	Nums  int    `gorm:"column:nums;type:int(10);not null;default:0;comment:文章数"`
 }
