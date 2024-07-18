@@ -4,6 +4,10 @@ import (
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/attachments"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/categories"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/comments"
+	"github.com/dzsdbsdxq/dz-gin-blog/app/core/logs"
+	"github.com/dzsdbsdxq/dz-gin-blog/app/core/post_category"
+	"github.com/dzsdbsdxq/dz-gin-blog/app/core/posts"
+	"github.com/dzsdbsdxq/dz-gin-blog/app/core/posts_tags"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/global"
 	"go.uber.org/zap"
 	"gorm.io/gorm"
@@ -25,6 +29,10 @@ func (i *InstallService) RegisterTables() error {
 		attachments.AttachmentModel{},
 		categories.CategoryModel{},
 		comments.CommentModel{},
+		logs.LogModel{},
+		post_category.PostCategoryModel{},
+		posts.PostModel{},
+		posts_tags.PostTagModel{},
 	)
 	if err != nil {
 		global.G_DZ_LOG.Error("register table failed", zap.Error(err))
