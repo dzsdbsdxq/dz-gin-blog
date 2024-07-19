@@ -6,14 +6,26 @@ import (
 )
 
 type ISettingDao interface {
-	Create(st *model.SysSetting) error
+	Create(st []*model.SysSetting) error
 	Update(st *model.SysSetting) error
+	Select() (st []*model.SysSetting, err error)
+	FindByKey(key string) (st *model.SysSetting, err error)
 }
 type SettingDao struct {
 	coll *gorm.DB
 }
 
-func (s *SettingDao) Create(st *model.SysSetting) error {
+func (s *SettingDao) FindByKey(key string) (st *model.SysSetting, err error) {
+	err = s.coll.Where("key = ?", key).First(&st).Error
+	return
+}
+
+func (s *SettingDao) Select() (st []*model.SysSetting, err error) {
+	err = s.coll.Find(&st).Error
+	return
+}
+
+func (s *SettingDao) Create(st []*model.SysSetting) error {
 	return s.coll.Create(st).Set("gorm:insert_option", "ON DUPLICATE KEY UPDATE updated_at = VALUES(updated_at)").Error
 }
 

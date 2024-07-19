@@ -2,6 +2,16 @@ package vo
 
 import "github.com/dzsdbsdxq/dz-gin-blog/app/core/setting/model"
 
+type SettingVO struct {
+	Required int    `json:"required"`
+	Key      string `json:"key"`
+	Val      string `json:"val"`
+	Name     string `json:"name"`
+	Desc     string `json:"desc"`
+	Type     string `json:"type"`
+	Comp     string `json:"comp"`
+}
+
 func InitializeData() []*model.SysSetting {
 	return []*model.SysSetting{
 		{
