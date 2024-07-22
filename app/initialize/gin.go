@@ -6,13 +6,14 @@ import (
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/comments"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/logs"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/posts"
+	"github.com/dzsdbsdxq/dz-gin-blog/app/core/setting"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/tags"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/users"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/global"
 	"github.com/gin-gonic/gin"
 )
 
-func NewGinEngine(postHdl *posts.Handler, usersHdl *users.Handler, attachmentHdl *attachments.Handler, categoriesHdl *categories.Handler, tagsHdl *tags.Handler, commentsHdl *comments.Handler, logsHdl *logs.Handler) (*gin.Engine, error) {
+func NewGinEngine(postHdl *posts.Handler, usersHdl *users.Handler, attachmentHdl *attachments.Handler, categoriesHdl *categories.Handler, tagsHdl *tags.Handler, commentsHdl *comments.Handler, logsHdl *logs.Handler, settingHdl *setting.Handler) (*gin.Engine, error) {
 	engine := gin.Default()
 	engine.Use(gin.Recovery())
 
@@ -37,6 +38,7 @@ func NewGinEngine(postHdl *posts.Handler, usersHdl *users.Handler, attachmentHdl
 	tagsHdl.RegisterRoutes(engine)
 	commentsHdl.RegisterRoutes(engine)
 	logsHdl.RegisterRoutes(engine)
+	settingHdl.RegisterRoutes(engine)
 	return engine, nil
 
 }

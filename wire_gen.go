@@ -14,6 +14,7 @@ import (
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/oss"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/post_category"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/posts"
+	"github.com/dzsdbsdxq/dz-gin-blog/app/core/setting"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/tags"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/users"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/initialize"
@@ -40,7 +41,9 @@ func initializeApp() (*gin.Engine, error) {
 	commentsHandler := commentsModule.Hdl
 	logsModule := logs.InitLogsModule(db)
 	logsHandler := logsModule.Hdl
-	engine, err := initialize.NewGinEngine(postHandler, userHandler, attachmentsHandler, categoryHandler, tagsHandler, commentsHandler, logsHandler)
+	settingModule := setting.InitSettingModule(db)
+	settingHandler := settingModule.Hdl
+	engine, err := initialize.NewGinEngine(postHandler, userHandler, attachmentsHandler, categoryHandler, tagsHandler, commentsHandler, logsHandler, settingHandler)
 	if err != nil {
 		return nil, err
 	}

@@ -10,6 +10,7 @@ import (
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/oss"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/post_category"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/posts"
+	"github.com/dzsdbsdxq/dz-gin-blog/app/core/setting"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/tags"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/users"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/initialize"
@@ -37,5 +38,7 @@ func initializeApp() (*gin.Engine, error) {
 		wire.FieldsOf(new(*comments.Module), "Hdl"),
 		logs.InitLogsModule,
 		wire.FieldsOf(new(*logs.Module), "Hdl"),
+		setting.InitSettingModule,
+		wire.FieldsOf(new(*setting.Module), "Hdl"),
 	))
 }
