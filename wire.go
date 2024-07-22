@@ -22,6 +22,7 @@ func initializeApp() (*gin.Engine, error) {
 	panic(wire.Build(
 		initialize.NewGinEngine,
 		initialize.NewMysql,
+		initialize.NewInitServer,
 		posts.InitPostModule,
 		oss.InitOssModule,
 		post_category.InitPostCategoriesModule,
@@ -40,5 +41,6 @@ func initializeApp() (*gin.Engine, error) {
 		wire.FieldsOf(new(*logs.Module), "Hdl"),
 		setting.InitSettingModule,
 		wire.FieldsOf(new(*setting.Module), "Hdl"),
+		//install.InitInstallModule,
 	))
 }
