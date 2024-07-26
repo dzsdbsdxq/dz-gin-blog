@@ -9,10 +9,11 @@ func main() {
 	initialize.InitViper()
 	initialize.InitZapLogger()
 	initialize.InitCache()
-	app, err := initializeApp()
+	app, fn, err := initializeApp()
 	if err != nil {
 		panic(err)
 	}
+	fn()
 
 	initialize.Run(app)
 

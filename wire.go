@@ -18,11 +18,11 @@ import (
 	"github.com/google/wire"
 )
 
-func initializeApp() (*gin.Engine, error) {
+func initializeApp() (*gin.Engine, func(), error) {
 	panic(wire.Build(
 		initialize.NewGinEngine,
 		initialize.NewMysql,
-		initialize.NewInitServer,
+		//initialize.NewInitServer,
 		posts.InitPostModule,
 		oss.InitOssModule,
 		post_category.InitPostCategoriesModule,

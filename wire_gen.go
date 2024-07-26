@@ -23,7 +23,7 @@ import (
 
 // Injectors from wire.go:
 
-func initializeApp() (*gin.Engine, error) {
+func initializeApp() (*gin.Engine, func(), error) {
 	db := initialize.NewMysql()
 	module := posts.InitPostModule(db)
 	postHandler := module.Hdl
@@ -43,9 +43,11 @@ func initializeApp() (*gin.Engine, error) {
 	logsHandler := logsModule.Hdl
 	settingModule := setting.InitSettingModule(db)
 	settingHandler := settingModule.Hdl
-	engine, err := initialize.NewGinEngine(postHandler, userHandler, attachmentsHandler, categoryHandler, tagsHandler, commentsHandler, logsHandler, settingHandler)
+	engine, cleanup, err := initialize.NewGinEngine(postHandler, userHandler, attachmentsHandler, categoryHandler, tagsHandler, commentsHandler, logsHandler, settingHandler)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
-	return engine, nil
+	return engine, func() {
+		cleanup()
+	}, nil
 }
