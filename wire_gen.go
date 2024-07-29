@@ -10,13 +10,17 @@ import (
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/attachments"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/categories"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/comments"
+	"github.com/dzsdbsdxq/dz-gin-blog/app/core/install"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/logs"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/oss"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/post_category"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/posts"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/setting"
+	"github.com/dzsdbsdxq/dz-gin-blog/app/core/stat"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/tags"
+	"github.com/dzsdbsdxq/dz-gin-blog/app/core/themes"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/users"
+	"github.com/dzsdbsdxq/dz-gin-blog/app/core/website"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/initialize"
 	"github.com/gin-gonic/gin"
 )
@@ -43,7 +47,14 @@ func initializeApp() (*gin.Engine, func(), error) {
 	logsHandler := logsModule.Hdl
 	settingModule := setting.InitSettingModule(db)
 	settingHandler := settingModule.Hdl
-	engine, cleanup, err := initialize.NewGinEngine(postHandler, userHandler, attachmentsHandler, categoryHandler, tagsHandler, commentsHandler, logsHandler, settingHandler)
+	installModule := install.InitInstallModule(db)
+	installHandler := installModule.Hdl
+	themesModule := themes.InitThemesModule(db)
+	themesHandler := themesModule.Hdl
+	statModule := stat.InitStatModule(db)
+	websiteModule := website.InitWebModule(db, statModule)
+	webSiteHandler := websiteModule.Hdl
+	engine, cleanup, err := initialize.NewGinEngine(postHandler, userHandler, attachmentsHandler, categoryHandler, tagsHandler, commentsHandler, logsHandler, settingHandler, installHandler, themesHandler, webSiteHandler)
 	if err != nil {
 		return nil, nil, err
 	}

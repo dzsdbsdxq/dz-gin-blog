@@ -1,20 +1,22 @@
 package initialize
 
 import (
-	"fmt"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/attachments"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/categories"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/comments"
+	"github.com/dzsdbsdxq/dz-gin-blog/app/core/install"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/logs"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/posts"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/setting"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/tags"
+	"github.com/dzsdbsdxq/dz-gin-blog/app/core/themes"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/users"
+	"github.com/dzsdbsdxq/dz-gin-blog/app/core/website"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/global"
 	"github.com/gin-gonic/gin"
 )
 
-func NewGinEngine(postHdl *posts.Handler, usersHdl *users.Handler, attachmentHdl *attachments.Handler, categoriesHdl *categories.Handler, tagsHdl *tags.Handler, commentsHdl *comments.Handler, logsHdl *logs.Handler, settingHdl *setting.Handler) (*gin.Engine, func(), error) {
+func NewGinEngine(postHdl *posts.Handler, usersHdl *users.Handler, attachmentHdl *attachments.Handler, categoriesHdl *categories.Handler, tagsHdl *tags.Handler, commentsHdl *comments.Handler, logsHdl *logs.Handler, settingHdl *setting.Handler, installHdl *install.Handler, themesHdl *themes.Handler, websiteHdl *website.Handler) (*gin.Engine, func(), error) {
 	engine := gin.Default()
 	engine.Use(gin.Recovery())
 
@@ -40,9 +42,10 @@ func NewGinEngine(postHdl *posts.Handler, usersHdl *users.Handler, attachmentHdl
 	commentsHdl.RegisterRoutes(engine)
 	logsHdl.RegisterRoutes(engine)
 	settingHdl.RegisterRoutes(engine)
+	themesHdl.RegisterRoutes(engine)
+	websiteHdl.RegisterRoutes(engine)
 	return engine, func() {
-		fmt.Println("Hello")
-
+		_ = NewInitServer(settingHdl, installHdl)
 	}, nil
 
 }

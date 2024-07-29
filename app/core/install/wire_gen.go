@@ -7,6 +7,7 @@
 package install
 
 import (
+	"github.com/dzsdbsdxq/dz-gin-blog/app/core/install/controller"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/install/service"
 	"github.com/google/wire"
 	"gorm.io/gorm"
@@ -16,13 +17,14 @@ import (
 
 func InitInstallModule(db *gorm.DB) *Module {
 	installService := service.NewInstallService(db)
+	installHandler := controller.NewInstallHandler(installService)
 	module := &Module{
-		Svc:  installService,
-		ISvc: installService,
+		Svc: installService,
+		Hdl: installHandler,
 	}
 	return module
 }
 
 // wire.go:
 
-var InstallProviders = wire.NewSet(service.NewInstallService, wire.Bind(new(service.IInstallService), new(*service.InstallService)))
+var InstallProviders = wire.NewSet(controller.NewInstallHandler, service.NewInstallService, wire.Bind(new(service.IInstallService), new(*service.InstallService)))

@@ -25,7 +25,9 @@ func (s *SettingHandler) RegisterRoutes(engine *gin.Engine) {
 	adminGroup := engine.Group("/admin-api/setting")
 	adminGroup.POST("/update", global.Wrap(s.AdminUpdate))
 }
-
+func (s *SettingHandler) SystemAutoRegister() error {
+	return s.serv.Create()
+}
 func (s *SettingHandler) AdminUpdate(ctx *gin.Context) (*global.ResponseBody[any], error) {
 	//读取请求体
 	body, err := ioutil.ReadAll(ctx.Request.Body)

@@ -8,7 +8,6 @@ import (
 
 type (
 	Handler       = controller.SettingHandler
-	Serv          = service.SettingService
 	Service       = service.ISettingService
 	SettingsModel = model.SysSetting
 	Module        struct {

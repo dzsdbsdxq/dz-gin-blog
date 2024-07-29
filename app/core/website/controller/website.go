@@ -1,20 +1,20 @@
 package controller
 
 import (
-	"github.com/dzsdbsdxq/dz-gin-blog/app/core/themes/service"
+	"github.com/dzsdbsdxq/dz-gin-blog/app/core/stat"
 	"github.com/gin-gonic/gin"
 )
 
-type ThemesHandler struct {
-	serv service.IThemesService
+type WebSiteHandler struct {
+	statService stat.Service
 }
 
-func NewThemesHandler(serv service.IThemesService) *ThemesHandler {
-	return &ThemesHandler{
-		serv: serv,
+func NewWebsiteHandler(statService stat.Service) *WebSiteHandler {
+	return &WebSiteHandler{
+		statService: statService,
 	}
 }
-func (t *ThemesHandler) RegisterRoutes(engine *gin.Engine) {
+func (web *WebSiteHandler) RegisterRoutes(engine *gin.Engine) {
 	//adminGroup := engine.Group("/admin-api/tags")
 	//adminGroup.POST("/create", global.WrapWithBody(t.adminCreateTags))
 	//adminGroup.GET("/lists", global.WrapWithBody(t.adminGetTagsLists))

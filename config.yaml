@@ -39,7 +39,7 @@ mysql:
   prefix: ""
   port: "3306"
   config: charset=utf8mb4&parseTime=True&loc=Local
-  db-name: db_blog
+  db-name: db_blog2
   username: root
   password: root
   path: 127.0.0.1
