@@ -1,0 +1,113 @@
+{
+  "name": "aosk简单主题",
+  "kind": "theme-aosk",
+  "version": "v1.1.0",
+  "author": "jackielee",
+  "website": "https://haoba.cc",
+  "description": "a tiny dz-gin-blog theme",
+  "link": "https://github.com/",
+  "repo": "https://github.com/",
+  "pages": [
+    {
+      "name": "留言板",
+      "description": "留言板文章",
+      "screenshot": "",
+      "file": "page_leaving.tmpl"
+    },
+    {
+      "name": "友链",
+      "description": "友情链接模板",
+      "screenshot": "",
+      "file": "page_links.tmpl"
+    }
+  ],
+  "forms": [
+    {
+      "group": "basic",
+      "label": "基本配置",
+      "schema": [
+        {
+          "kit": "select",
+          "name": "model",
+          "label": "主题模式",
+          "value": "user",
+          "help": "设置博客的主题模式（用户/自动/浅色/暗黑），默认为用户模式，仅在用户模式下页面才有主题切换按钮，自动模式下根据时间自动切换",
+          "options": [
+            {
+              "value": "user",
+              "label": "用户模式"
+            },
+            {
+              "value": "auto",
+              "label": "自动模式"
+            },
+            {
+              "value": "light",
+              "label": "浅色模式"
+            },
+            {
+              "value": "dark",
+              "label": "暗黑模式"
+            }
+          ]
+        },
+        {
+          "kit": "radio",
+          "name": "comment_option",
+          "label": "评论系统",
+          "value": "default",
+          "help": "选择使用的评论系统",
+          "options": [
+            {
+              "value": "default",
+              "label": "默认"
+            },
+            {
+              "value": "waline",
+              "label": "waline"
+            }
+          ],
+          "group": [
+            {
+              "kit": "text",
+              "check": "waline",
+              "name": "waline_serverUrl",
+              "label": "waline服务端地址",
+              "value": "",
+              "help": "Waline 服务端地址，如 https://waline-server.herokuapp.com 不要加结尾反斜杠"
+            }
+          ]
+        },
+        {
+          "kit": "text",
+          "name": "model_color_light",
+          "label": "主题色（浅色）",
+          "value": "#fb6c28",
+          "help": "浅色主题色色值，默认#fb6c28"
+        },
+        {
+          "kit": "attachment",
+          "name": "background_light_mode",
+          "label": "背景图（浅色模式）",
+          "value": "",
+          "help": "设置浅色模式下的背景图（建议webp格式），为空则只显示默认背景色"
+        },
+        {
+          "kit": "number",
+          "name": "content_max_width",
+          "label": "内容区最大宽度",
+          "value": "1320",
+          "help": "限制内容区域的宽度，单位px,默认1320px"
+        },
+        {
+          "kit": "textarea",
+          "name": "qq_group",
+          "label": "QQ交流群",
+          "value": "",
+          "help": "请填入QQ交流群链接，留空则不显示"
+        }
+      ]
+    }
+
+  ]
+}

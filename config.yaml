@@ -7,6 +7,7 @@ system:
   oss-type: local
   domain: http://127.0.0.1:10000
   url-suffix: .html
+  theme-path:
 # 本地存的地址
 local:
   base-url: http://127.0.0.1:10000
