@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/setting"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/themes/service"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/themes/vo"
@@ -68,7 +67,6 @@ func (t *ThemesHandler) adminEnableThemes(ctx *gin.Context) (*global.ResponseBod
 		}
 		conf := make([]*vo.ThemeReq, 0)
 		//读取配置信息
-		fmt.Printf("%+v\n", config)
 		if len(config.Pages) > 0 {
 			for _, page := range config.Pages {
 				conf = append(conf, &vo.ThemeReq{
@@ -89,13 +87,38 @@ func (t *ThemesHandler) adminEnableThemes(ctx *gin.Context) (*global.ResponseBod
 					Desc:  post.Label,
 					Hook:  "posts",
 				})
-				if len(post.Group) > 0 {
-
+			}
+		}
+		if len(config.Forms) > 0 {
+			for _, form := range config.Forms {
+				if len(form.Schema) > 0 {
+					for _, sch := range form.Schema {
+						conf = append(conf, &vo.ThemeReq{
+							Value: sch.Value,
+							Key:   sch.Name,
+							Type:  themeName,
+							Desc:  sch.Label,
+							Hook:  "global",
+						})
+						if len(sch.Group) > 0 {
+							for _, sg := range sch.Group {
+								conf = append(conf, &vo.ThemeReq{
+									Value: sg.Value,
+									Key:   sg.Name,
+									Type:  themeName,
+									Desc:  sg.Label,
+									Hook:  "global",
+								})
+							}
+						}
+					}
 				}
 			}
 
 		}
-
+		if len(conf) > 0 {
+			_ = t.serv.Create(conf)
+		}
 		_ = t.settingServ.UpdateValByKey("BlogEnableTheme", themeName)
 	case "disable":
 		key, _ := t.settingServ.FindByKey("BlogEnableTheme")

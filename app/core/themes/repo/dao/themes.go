@@ -6,6 +6,7 @@ import (
 )
 
 type IThemesDao interface {
+	Create(themes []*model.SysThemes) error
 	SelectByType(ty string) (themes []*model.SysThemes, err error)
 	FindByTypeAndKey(ty string, key string) (theme *model.SysThemes, err error)
 }
@@ -20,6 +21,11 @@ func NewThemesDao(db *gorm.DB) *ThemesDao {
 
 type ThemesDao struct {
 	coll *gorm.DB
+}
+
+func (t *ThemesDao) Create(themes []*model.SysThemes) error {
+
+	return t.coll.Create(themes).Error
 }
 
 func (t *ThemesDao) SelectByType(ty string) (themes []*model.SysThemes, err error) {

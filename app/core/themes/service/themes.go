@@ -1,6 +1,7 @@
 package service
 
 import (
+	"github.com/dzsdbsdxq/dz-gin-blog/app/core/themes/model"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/themes/repo"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/themes/vo"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/utils"
@@ -8,6 +9,7 @@ import (
 )
 
 type IThemesService interface {
+	Create(themes []*vo.ThemeReq) error
 	GetThemeSettingConfig(name string) (*vo.ThemeSettingConfig, error)
 	GetThemeSetting(name string) ([]*vo.ThemeKeyValue, error)
 }
@@ -16,6 +18,21 @@ var _ IThemesService = (*ThemesService)(nil)
 
 type ThemesService struct {
 	repo repo.IThemesRepository
+}
+
+func (t *ThemesService) Create(themes []*vo.ThemeReq) error {
+	thms := make([]*model.SysThemes, 0)
+	for _, theme := range themes {
+		thms = append(thms, &model.SysThemes{
+			Key:  theme.Key,
+			Val:  theme.Value,
+			Type: theme.Type,
+			Name: theme.Desc,
+			Desc: theme.Desc,
+			Hook: theme.Hook,
+		})
+	}
+	return t.repo.Create(thms)
 }
 
 func (t *ThemesService) GetThemeSetting(name string) ([]*vo.ThemeKeyValue, error) {
