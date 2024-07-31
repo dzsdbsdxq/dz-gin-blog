@@ -3,6 +3,7 @@
 package themes
 
 import (
+	"github.com/dzsdbsdxq/dz-gin-blog/app/core/setting"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/themes/controller"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/themes/repo"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/themes/repo/dao"
@@ -21,9 +22,10 @@ var ThemeProviders = wire.NewSet(
 	wire.Bind(new(dao.IThemesDao), new(*dao.ThemesDao)),
 )
 
-func InitThemesModule(db *gorm.DB) *Module {
+func InitThemesModule(db *gorm.DB, settingModule *setting.Module) *Module {
 	panic(wire.Build(
 		ThemeProviders,
+		wire.FieldsOf(new(*setting.Module), "Svc"),
 		wire.Struct(new(Module), "Svc", "Hdl"),
 	))
 }

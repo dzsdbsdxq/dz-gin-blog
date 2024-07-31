@@ -180,5 +180,14 @@ func InitializeData() []*model.SysSetting {
 			Type:     "other",
 			Comp:     "textarea",
 		},
+		{
+			Required: 1,
+			Key:      "BlogEnableTheme",
+			Val:      "",
+			Name:     "启用的主题",
+			Desc:     "",
+			Type:     "readonly",
+			Comp:     "text",
+		},
 	}
 }

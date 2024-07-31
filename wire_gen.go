@@ -49,7 +49,7 @@ func initializeApp() (*gin.Engine, func(), error) {
 	settingHandler := settingModule.Hdl
 	installModule := install.InitInstallModule(db)
 	installHandler := installModule.Hdl
-	themesModule := themes.InitThemesModule(db)
+	themesModule := themes.InitThemesModule(db, settingModule)
 	themesHandler := themesModule.Hdl
 	statModule := stat.InitStatModule(db)
 	websiteModule := website.InitWebModule(db, statModule)

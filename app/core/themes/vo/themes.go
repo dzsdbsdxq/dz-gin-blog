@@ -26,14 +26,15 @@ type ThemeForms struct {
 	Schema []ThemeSchema `json:"schema"`
 }
 type ThemeSettingConfig struct {
-	Name        string       `json:"name"`
-	Kind        string       `json:"kind"`
-	Version     string       `json:"version"`
-	Author      string       `json:"author"`
-	Website     string       `json:"website"`
-	Description string       `json:"description"`
-	Link        string       `json:"link"`
-	Repo        string       `json:"repo"`
-	Pages       []ThemePages `json:"pages"`
-	Forms       []ThemeForms `json:"forms"`
+	Name        string        `json:"name"`
+	Kind        string        `json:"kind"`
+	Version     string        `json:"version"`
+	Author      string        `json:"author"`
+	Website     string        `json:"website"`
+	Description string        `json:"description"`
+	Link        string        `json:"link"`
+	Repo        string        `json:"repo"`
+	Pages       []ThemePages  `json:"pages"`
+	Forms       []ThemeForms  `json:"forms"`
+	Posts       []ThemeSchema `json:"posts,omitempty"`
 }

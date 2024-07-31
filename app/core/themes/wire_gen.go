@@ -7,6 +7,7 @@
 package themes
 
 import (
+	"github.com/dzsdbsdxq/dz-gin-blog/app/core/setting"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/themes/controller"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/themes/repo"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/themes/repo/dao"
@@ -17,11 +18,12 @@ import (
 
 // Injectors from wire.go:
 
-func InitThemesModule(db *gorm.DB) *Module {
+func InitThemesModule(db *gorm.DB, settingModule *setting.Module) *Module {
 	themesDao := dao.NewThemesDao(db)
 	themesRepository := repo.NewThemesRepository(themesDao)
 	themesService := service.NewThemesService(themesRepository)
-	themesHandler := controller.NewThemesHandler(themesService)
+	iSettingService := settingModule.Svc
+	themesHandler := controller.NewThemesHandler(themesService, iSettingService)
 	module := &Module{
 		Svc: themesService,
 		Hdl: themesHandler,

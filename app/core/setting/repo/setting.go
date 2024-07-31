@@ -8,6 +8,7 @@ import (
 type ISettingRepository interface {
 	Create(setting []*model.SysSetting) error
 	Update(setting *model.SysSetting) error
+	UpdateValByKey(key string, val string) error
 	Select() (sts []*model.SysSetting, err error)
 	FindByKey(key string) (st *model.SysSetting, err error)
 }
@@ -22,6 +23,10 @@ func NewSettingRepository(dao dao.ISettingDao) *SettingRepository {
 
 type SettingRepository struct {
 	dao dao.ISettingDao
+}
+
+func (s *SettingRepository) UpdateValByKey(key string, val string) error {
+	return s.dao.UpdateValByKey(key, val)
 }
 
 func (s *SettingRepository) FindByKey(key string) (st *model.SysSetting, err error) {

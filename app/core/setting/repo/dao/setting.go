@@ -9,11 +9,21 @@ import (
 type ISettingDao interface {
 	Create(sts []*model.SysSetting) error
 	Update(st *model.SysSetting) error
+	UpdateValByKey(key string, val string) error
 	Select() (st []*model.SysSetting, err error)
 	FindByKey(key string) (st *model.SysSetting, err error)
 }
 type SettingDao struct {
 	coll *gorm.DB
+}
+
+func (s *SettingDao) UpdateValByKey(key string, val string) error {
+	_, err := s.FindByKey(key)
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		//如果key不存在，直接返回
+		return nil
+	}
+	return s.coll.Model(&model.SysSetting{}).Where("`key` = ?", key).Update("val", val).Error
 }
 
 func (s *SettingDao) FindByKey(key string) (st *model.SysSetting, err error) {

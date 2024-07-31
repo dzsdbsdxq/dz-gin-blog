@@ -1,9 +1,7 @@
 package controller
 
 import (
-	"fmt"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/core/setting/service"
-	"github.com/dzsdbsdxq/dz-gin-blog/app/core/setting/vo"
 	"github.com/dzsdbsdxq/dz-gin-blog/app/global"
 	"github.com/gin-gonic/gin"
 	jsoniter "github.com/json-iterator/go"
@@ -37,19 +35,19 @@ func (s *SettingHandler) AdminUpdate(ctx *gin.Context) (*global.ResponseBody[any
 	defer func(Body io.ReadCloser) {
 		_ = Body.Close()
 	}(ctx.Request.Body)
-	var reqs []*vo.SettingReq
 	var rawData map[string]string
 	err = jsoniter.Unmarshal(body, &rawData)
 	if err != nil {
 		return global.ErrorResponse(405000000, ""), err
 	}
 	for key, value := range rawData {
-		reqs = append(reqs, &vo.SettingReq{
-			Key: key,
-			Val: value,
-		})
+		//reqs = append(reqs, &vo.SettingReq{
+		//	Key: key,
+		//	Val: value,
+		//})
+		_ = s.serv.UpdateValByKey(key, value)
 	}
-	fmt.Printf("%+v\n", reqs)
+	//fmt.Printf("%+v\n", reqs)
 	//s.serv.Update()
-	return global.SuccessResponse(), s.serv.Update(reqs)
+	return global.SuccessResponse(), nil
 }

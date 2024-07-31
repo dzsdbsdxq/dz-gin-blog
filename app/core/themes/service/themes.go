@@ -9,12 +9,28 @@ import (
 
 type IThemesService interface {
 	GetThemeSettingConfig(name string) (*vo.ThemeSettingConfig, error)
+	GetThemeSetting(name string) ([]*vo.ThemeKeyValue, error)
 }
 
 var _ IThemesService = (*ThemesService)(nil)
 
 type ThemesService struct {
 	repo repo.IThemesRepository
+}
+
+func (t *ThemesService) GetThemeSetting(name string) ([]*vo.ThemeKeyValue, error) {
+	themes, err := t.repo.SelectByType(name)
+	if err != nil {
+		return nil, err
+	}
+	themesOptions := make([]*vo.ThemeKeyValue, len(themes))
+	for _, theme := range themes {
+		themesOptions = append(themesOptions, &vo.ThemeKeyValue{
+			Value: theme.Val,
+			Key:   theme.Key,
+		})
+	}
+	return themesOptions, nil
 }
 
 func (t *ThemesService) GetThemeSettingConfig(name string) (*vo.ThemeSettingConfig, error) {
